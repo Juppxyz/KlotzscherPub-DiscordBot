@@ -2,10 +2,10 @@ package xyz.jupp.discord.core;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.entities.Guild;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.jupp.discord.commands.handler.CommandHandler;
+import xyz.jupp.discord.utils.SecretKey;
 
 import javax.security.auth.login.LoginException;
 
@@ -22,7 +22,7 @@ public class KlotzscherPub {
     public static JDA getJda() {
         if (jda == null) {
             try {
-                jda = JDABuilder.createLight("NDQzMTE3NzE0MTYxMTM5NzEy.WvCbhw.xa0yt_zZLZ9VhtxC-32CC3Bh9g0").build();
+                jda = JDABuilder.createLight(SecretKey.key).build();
                 log.info("verify was successful.");
             } catch (LoginException e) {
                 e.printStackTrace();
@@ -43,7 +43,6 @@ public class KlotzscherPub {
 
 
     private void registerCommands() {
-        CommandHandler.addCommand(new N)
     }
 
 

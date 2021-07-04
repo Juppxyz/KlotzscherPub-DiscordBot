@@ -16,8 +16,10 @@ public class Message {
             embedBuilder.setColor(Color.ORANGE);
             embedBuilder.setTitle("KlotzscherPub Bot » ");
             embedBuilder.setAuthor("DiscordBot OpenSource: ", "");
+            return embedBuilder;
+        }else {
+            return embedBuilder;
         }
-
     }
 
     public static void send(@NotNull MessageReceivedEvent event, @NotNull String content){
