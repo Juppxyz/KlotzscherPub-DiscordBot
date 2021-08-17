@@ -43,7 +43,7 @@ public class RegularCollection {
             Bson updatedDocument = new Document("active_time", activeTime);
 
             getMongoCollection().updateOne(searchFilter, new Document("$set", updatedDocument));
-            log.info(KlotzscherPub.getChatPrefix() + "updated active_time for " + member.getId());
+            log.info(KlotzscherPub.getPrefix() + "updated active_time for " + member.getId());
         }
 
     }
@@ -66,9 +66,9 @@ public class RegularCollection {
             document.append("member_name",member.getEffectiveName());
             document.append("active_time", "0");
             getMongoCollection().insertOne(document);
-            log.info(KlotzscherPub.getChatPrefix() + "create new member (" + member.getEffectiveName() + ") in database.");
+            log.info(KlotzscherPub.getPrefix() + "create new member (" + member.getEffectiveName() + ") in database.");
         }else {
-            log.info(KlotzscherPub.getChatPrefix() + "tried to create an existing member. (0.1.1)");
+            log.info(KlotzscherPub.getPrefix() + "tried to create an existing member. (0.1.1)");
         }
 
     }

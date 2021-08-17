@@ -19,12 +19,12 @@ public class OnReadyListener extends ListenerAdapter {
     @Override
     public void onReady(@NotNull ReadyEvent event) {
         if (!checkGuilds()){
-            log.error(KlotzscherPub.getChatPrefix() + "the bot can only be used on the KlotzscherPub discord.");
+            log.error(KlotzscherPub.getPrefix() + "the bot can only be used on the KlotzscherPub discord.");
             KlotzscherPub.shutdown();
             return;
         }
 
-        log.info(KlotzscherPub.getChatPrefix() + "the bot is only on the KlotzscherPub guild.");
+        log.info(KlotzscherPub.getPrefix() + "the bot is only on the KlotzscherPub guild.");
 
     }
 
