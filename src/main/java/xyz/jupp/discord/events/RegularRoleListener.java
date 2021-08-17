@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import xyz.jupp.discord.core.KlotzscherPub;
@@ -54,9 +55,10 @@ public class RegularRoleListener extends ListenerAdapter {
 
                 long activeTime =  activeTimeFromDatabase + (actuallyTime - dateFromMember);
 
-
                 if (activeTimeFromDatabase < 15768000L) {
-
+                    if (activeTime < 10000L){
+                        return;
+                    }
                     regularCollection.updateDatetime(activeTime);
                 }else {
 
