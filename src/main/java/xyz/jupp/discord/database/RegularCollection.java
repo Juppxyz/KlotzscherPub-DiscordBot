@@ -61,10 +61,10 @@ public class RegularCollection {
 
 
     public void createNewMemberInDatabase() {
-        if (existMemberInDatabase()){
+        if (!existMemberInDatabase()){
             Document document = new Document("member_id", member.getId());
             document.append("member_name",member.getEffectiveName());
-            document.append("active_time", "0");
+            document.append("active_time", 0L);
             getMongoCollection().insertOne(document);
             log.info(KlotzscherPub.getPrefix() + "create new member (" + member.getEffectiveName() + ") in database.");
         }else {

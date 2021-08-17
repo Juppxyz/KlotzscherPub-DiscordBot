@@ -24,8 +24,10 @@ public class KlotzscherPub {
     /** logger factory for the bot */
     private static Logger log = LoggerFactory.getLogger(KlotzscherPub.class);
 
+
     private static Guild guild;
     private static TextChannel textChannel;
+
 
     /** JDA Builder for the bot */
     private static JDA jda;
@@ -38,6 +40,7 @@ public class KlotzscherPub {
                         .addEventListeners(new CommandHandler())
                         .addEventListeners(new RegularRoleListener())
                         .setActivity(Activity.playing("an der Bar")).build();
+
 
                 log.info(prefix + "register commands ..");
                 CommandHandler.addCommand(new NicknameResetCommand());
@@ -59,19 +62,18 @@ public class KlotzscherPub {
         getJda();
     }
 
-    /** shutdown the bot */
+    // shutdown the bot
     public static void shutdown(){
         log.warn("shutdown the klotzscherpub bot ..");
         getJda().shutdownNow();
     }
 
-
-    /** get the prefix from the bot */
+    // get the prefix from the bot
     public static String getPrefix() {
         return prefix;
     }
 
-    /** get the prefix for the chat commands */
+    // get the prefix for the chat commands
     public static String getChatPrefix() {
         return prefix;
     }
