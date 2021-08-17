@@ -8,12 +8,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.jupp.discord.core.KlotzscherPub;
 import xyz.jupp.discord.core.KlotzscherPubGuild;
+import xyz.jupp.discord.database.MongoDB;
 
 import java.util.List;
 
 public class OnReadyListener extends ListenerAdapter {
 
-    private static Logger log = LoggerFactory.getLogger(OnReadyListener.class);
+    private final static Logger log = LoggerFactory.getLogger(OnReadyListener.class);
+
 
     @Override
     public void onReady(@NotNull ReadyEvent event) {
@@ -21,7 +23,9 @@ public class OnReadyListener extends ListenerAdapter {
             log.error("the bot can only be used on the KlotzscherPub discord.");
             KlotzscherPub.shutdown();
         }
+
     }
+
 
     /** This method ensures that the bot is only on the KlotzscherPub */
     private boolean checkGuilds() {

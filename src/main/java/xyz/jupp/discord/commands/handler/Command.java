@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface Command {
 
-    default boolean permissionCheck(GuildMessageReceivedEvent e){
-        if (e.getChannel().getId().equals("796428306228052010")){
-            List<Role> roleList = e.getGuild().getRoles();
+    default boolean permissionCheck(GuildMessageReceivedEvent event){
+        if (event.getChannel().getId().equals("796428306228052010")){
+            List<Role> roleList = event.getGuild().getRoles();
             for (Role role : roleList) {
                 if (role.getName().equalsIgnoreCase("manager") || role.getName().equalsIgnoreCase("boss")){
                     return true;
@@ -20,7 +20,7 @@ public interface Command {
     }
 
 
-    void action(String[] args, GuildMessageReceivedEvent e);
+    void action(String[] args, GuildMessageReceivedEvent event);
     String getCommand();
 
 }

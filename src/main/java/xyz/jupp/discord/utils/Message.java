@@ -1,29 +1,23 @@
 package xyz.jupp.discord.utils;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.entities.TextChannel;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 
 public class Message {
 
-    private static EmbedBuilder embedBuilder = null;
-    private EmbedBuilder embedBuilder(){
-        if (embedBuilder == null){
-            embedBuilder = new EmbedBuilder();
 
-            embedBuilder.setColor(Color.ORANGE);
-            embedBuilder.setTitle("KlotzscherPub Bot » ");
-            embedBuilder.setAuthor("DiscordBot OpenSource: ", "");
-            return embedBuilder;
-        }else {
-            return embedBuilder;
-        }
+    private static EmbedBuilder getEmbedBuilder(){
+        EmbedBuilder embedBuilder = new EmbedBuilder();
+        embedBuilder.setColor(Color.ORANGE);
+        embedBuilder.setTitle("KlotzscherPub Bot » ");
+        return embedBuilder;
     }
 
-    public static void send(@NotNull MessageReceivedEvent event, @NotNull String content){
-        EmbedBuilder embedBuilder = new EmbedBuilder();
+    public static void send(@NotNull TextChannel channel, @NotNull String content){
+        channel.sendMessageEmbeds(getEmbedBuilder().setDescription(content).build()).queue();
     }
 
 }
