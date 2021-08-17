@@ -40,7 +40,7 @@ public class CommandHandler extends ListenerAdapter {
     public static boolean addCommand(Command cmd) {
         if (cmd != null) {
             getCommands().add(cmd);
-            log.info("Add new Command: " + cmd.getCommand());
+            log.info(KlotzscherPub.getChatPrefix() + "Add new Command: " + cmd.getCommand());
         }
         return true;
     }

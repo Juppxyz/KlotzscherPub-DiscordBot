@@ -1,10 +1,14 @@
 package xyz.jupp.discord.events;
 
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -23,6 +27,7 @@ public class RegularRoleListener extends ListenerAdapter {
     @Override
     public void onGuildVoiceJoin(GuildVoiceJoinEvent event) {
         Member member = event.getMember();
+
         if (!memberChannelTime.containsKey(member.getId())){
             memberChannelTime.put(member.getId(), new Date());
         }
@@ -30,11 +35,12 @@ public class RegularRoleListener extends ListenerAdapter {
     }
 
 
+
     @Override
     public void onGuildVoiceLeave(GuildVoiceLeaveEvent event) {
-        Member member = event.getMember();
-        System.out.println("someone has left a voicechat");
-        System.out.println(event.getChannelLeft());
+        Guild guild = event.getGuild(); // Get the guild that the user joined.
+        JDA client = event.getJDA();    // Get the already existing JDA instance.
+
 
         /*
         if (memberChannelTime.containsKey(member.getId())) {

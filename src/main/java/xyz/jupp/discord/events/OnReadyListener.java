@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.jupp.discord.core.KlotzscherPub;
 import xyz.jupp.discord.core.KlotzscherPubGuild;
-import xyz.jupp.discord.database.MongoDB;
 
 import java.util.List;
 
@@ -20,9 +19,12 @@ public class OnReadyListener extends ListenerAdapter {
     @Override
     public void onReady(@NotNull ReadyEvent event) {
         if (!checkGuilds()){
-            log.error("the bot can only be used on the KlotzscherPub discord.");
+            log.error(KlotzscherPub.getChatPrefix() + "the bot can only be used on the KlotzscherPub discord.");
             KlotzscherPub.shutdown();
+            return;
         }
+
+        log.info(KlotzscherPub.getChatPrefix() + "the bot is only on the KlotzscherPub guild.");
 
     }
 

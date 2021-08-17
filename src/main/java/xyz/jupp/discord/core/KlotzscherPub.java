@@ -2,12 +2,14 @@ package xyz.jupp.discord.core;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.jupp.discord.commands.*;
 import xyz.jupp.discord.commands.handler.CommandHandler;
+import xyz.jupp.discord.database.MongoDB;
 import xyz.jupp.discord.events.OnReadyListener;
 import xyz.jupp.discord.events.RegularRoleListener;
 import xyz.jupp.discord.utils.SecretKey;
@@ -29,14 +31,21 @@ public class KlotzscherPub {
     private static JDA jda;
     public static JDA getJda() {
         if (jda == null) {
-            log.info("build the bot ..");
+            log.info(prefix + "build the bot ..");
             try {
-                jda = JDABuilder.createLight(SecretKey.key).build();
+                jda = JDABuilder.createDefault(SecretKey.key)
+                        .addEventListeners(new OnReadyListener())
+                        .addEventListeners(new CommandHandler())
+                        .addEventListeners(new RegularRoleListener())
+                        .setActivity(Activity.playing("an der Bar")).build();
 
-                registerListener(jda);
-                registerCommands();
+                log.info(prefix + "register commands ..");
+                CommandHandler.addCommand(new NicknameResetCommand());
 
-                log.info("verify was successful.");
+                log.info(prefix + "try to create connection with mongodb ..");
+                MongoDB.getInstance();
+
+                log.info(prefix + "bot started successfully.");
             } catch (LoginException e) {
                 e.printStackTrace();
             }
@@ -46,24 +55,9 @@ public class KlotzscherPub {
 
 
     public static void main(String[] args) {
-        log.info("start the klotzscherpub bot .. ");
+        log.info(prefix + "start the klotzscherpub bot .. ");
         getJda();
     }
-
-
-    private static void registerCommands() {
-        log.info("register commands ..");
-        CommandHandler.addCommand(new NicknameResetCommand());
-    }
-
-
-    private static void registerListener(JDA jda) {
-        log.info("register listener ..");
-        jda.addEventListener(new RegularRoleListener());
-        jda.addEventListener(new OnReadyListener());
-        jda.addEventListener(new CommandHandler());
-    }
-
 
     /** shutdown the bot */
     public static void shutdown(){
@@ -79,7 +73,7 @@ public class KlotzscherPub {
 
     /** get the prefix for the chat commands */
     public static String getChatPrefix() {
-        return chatPrefix;
+        return prefix;
     }
 
 }
