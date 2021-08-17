@@ -6,15 +6,11 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
-import org.bson.Document;
-import org.bson.conversions.Bson;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.jupp.discord.core.KlotzscherPub;
 import xyz.jupp.discord.utils.SecretKey;
 
-import static com.mongodb.client.model.Filters.eq;
 
 public class MongoDB {
     private MongoDB() {}

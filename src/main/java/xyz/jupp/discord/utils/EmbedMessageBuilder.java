@@ -36,8 +36,8 @@ public class EmbedMessageBuilder {
         embedBuilder.setDescription(getContent());
         embedBuilder.setColor(color);
 
-        embedBuilder.setTitle("KlotzscherPub Bot");
-        embedBuilder.setImage("https://cdn.discordapp.com/icons/628250514756468760/a_f72086c4c399ddd5518bdccc732910b1.png?size=128");
+        embedBuilder.setTitle("KlotzscherPub Bot \uD83C\uDF7A");
+        //embedBuilder.setImage("https://cdn.discordapp.com/icons/628250514756468760/a_f72086c4c399ddd5518bdccc732910b1.png?size=32");
         return embedBuilder;
     }
 

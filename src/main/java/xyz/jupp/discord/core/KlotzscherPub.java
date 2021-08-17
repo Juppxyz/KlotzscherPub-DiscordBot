@@ -44,6 +44,8 @@ public class KlotzscherPub {
 
                 log.info(prefix + "register commands ..");
                 CommandHandler.addCommand(new NicknameResetCommand());
+                CommandHandler.addCommand(new ActiveCommand());
+                CommandHandler.addCommand(new HelpCommand());
 
                 log.info(prefix + "try to create connection with mongodb ..");
                 MongoDB.getInstance();
@@ -75,7 +77,7 @@ public class KlotzscherPub {
 
     // get the prefix for the chat commands
     public static String getChatPrefix() {
-        return prefix;
+        return chatPrefix;
     }
 
 }
