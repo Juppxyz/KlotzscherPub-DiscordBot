@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import xyz.jupp.discord.commands.*;
 import xyz.jupp.discord.commands.handler.CommandHandler;
 import xyz.jupp.discord.database.MongoDB;
+import xyz.jupp.discord.events.OnGuildJoinListener;
 import xyz.jupp.discord.events.OnReadyListener;
 import xyz.jupp.discord.events.RegularRoleListener;
 import xyz.jupp.discord.utils.SecretKey;
@@ -38,6 +39,7 @@ public class KlotzscherPub {
                 jda = JDABuilder.createDefault(SecretKey.key)
                         .addEventListeners(new OnReadyListener())
                         .addEventListeners(new CommandHandler())
+                        .addEventListeners(new OnGuildJoinListener())
                         .addEventListeners(new RegularRoleListener())
                         .setActivity(Activity.playing("an der Bar")).build();
 
@@ -63,6 +65,7 @@ public class KlotzscherPub {
         log.info(prefix + "start the klotzscherpub bot .. ");
         getJda();
     }
+    
 
     // shutdown the bot
     public static void shutdown(){
@@ -79,5 +82,6 @@ public class KlotzscherPub {
     public static String getChatPrefix() {
         return chatPrefix;
     }
+
 
 }

@@ -9,6 +9,8 @@ import xyz.jupp.discord.core.KlotzscherPub;
 import xyz.jupp.discord.database.RegularCollection;
 import xyz.jupp.discord.utils.EmbedMessageBuilder;
 
+import java.util.concurrent.TimeUnit;
+
 public class ActiveCommand implements Command {
 
     // logger
@@ -20,7 +22,7 @@ public class ActiveCommand implements Command {
         log.info(KlotzscherPub.getPrefix() + "execute active command (" + member.getId() + ")");
 
         RegularCollection regularCollection = new RegularCollection(member);
-        EmbedMessageBuilder embedMessageBuilder = new EmbedMessageBuilder("Deine aktive Zeit beträgt: " + regularCollection.getActiveTime() + " Stunden", EmbedMessageBuilder.EmbedMessageTypes.INFO);
+        EmbedMessageBuilder embedMessageBuilder = new EmbedMessageBuilder("Deine aktive Zeit beträgt: " + TimeUnit.MILLISECONDS.toHours(regularCollection.getActiveTime()) + " Stunden", EmbedMessageBuilder.EmbedMessageTypes.INFO);
         event.getChannel().sendMessageEmbeds(embedMessageBuilder.getMessage().build()).queue();
     }
 
