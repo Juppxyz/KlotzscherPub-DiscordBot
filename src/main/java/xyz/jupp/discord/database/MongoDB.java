@@ -2,7 +2,6 @@ package xyz.jupp.discord.database;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
-import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
@@ -25,7 +24,7 @@ public class MongoDB {
     private static MongoDB instance = null;
     public synchronized static MongoDB getInstance() {
         if (instance == null){
-            log.info(KlotzscherPub.getChatPrefix() + "connected to database.");
+            log.info(KlotzscherPub.getPrefix() + "connected to database.");
             instance = new MongoDB();
         }
         return instance;

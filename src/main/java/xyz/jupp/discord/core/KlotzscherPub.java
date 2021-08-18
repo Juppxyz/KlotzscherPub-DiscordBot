@@ -3,8 +3,7 @@ package xyz.jupp.discord.core;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.jupp.discord.commands.ActiveCommand;
@@ -12,7 +11,7 @@ import xyz.jupp.discord.commands.HelpCommand;
 import xyz.jupp.discord.commands.NicknameResetCommand;
 import xyz.jupp.discord.commands.handler.CommandHandler;
 import xyz.jupp.discord.database.MongoDB;
-import xyz.jupp.discord.events.NickNameChangeListener;
+import xyz.jupp.discord.events.NicknameChangeListener;
 import xyz.jupp.discord.events.OnGuildJoinListener;
 import xyz.jupp.discord.events.OnReadyListener;
 import xyz.jupp.discord.events.RegularRoleListener;
@@ -29,10 +28,6 @@ public class KlotzscherPub {
     private static Logger log = LoggerFactory.getLogger(KlotzscherPub.class);
 
 
-    private static Guild guild;
-    private static TextChannel textChannel;
-
-
     /** JDA Builder for the bot */
     private static JDA jda;
     public static JDA getJda() {
@@ -40,13 +35,15 @@ public class KlotzscherPub {
             log.info(prefix + "build the bot ..");
             try {
                 jda = JDABuilder.createDefault(SecretKey.key)
+                        .enableIntents(GatewayIntent.GUILD_MEMBERS)
                         .addEventListeners(new OnReadyListener())
                         .addEventListeners(new CommandHandler())
+                        .addEventListeners(new NicknameChangeListener())
                         .addEventListeners(new OnGuildJoinListener())
-                        .addEventListeners(new NickNameChangeListener())
                         .addEventListeners(new RegularRoleListener())
                         .setActivity(Activity.playing("an der Bar")).build();
 
+                System.out.println(jda.getEventManager().getRegisteredListeners());
 
                 log.info(prefix + "register commands ..");
                 CommandHandler.addCommand(new NicknameResetCommand());

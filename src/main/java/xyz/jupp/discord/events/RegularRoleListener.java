@@ -77,7 +77,7 @@ public class RegularRoleListener extends ListenerAdapter {
 
     /* Updates the group to the regular customer (only fot he G's) */
     private void updateRole(@NotNull Member member) {
-        KlotzscherPubGuild.getGuild().addRoleToMember(member.getId(), KlotzscherPubGuild.getGuild().getRoleById(628302155782029332L));
+        KlotzscherPubGuild.getGuild().addRoleToMember(member.getId(), KlotzscherPubGuild.getGuild().getRoleById(628302155782029332L)).queue();
         log.info(KlotzscherPub.getPrefix() + "updated role for " + member.getId() + " to Stammkunde.");
     }
 

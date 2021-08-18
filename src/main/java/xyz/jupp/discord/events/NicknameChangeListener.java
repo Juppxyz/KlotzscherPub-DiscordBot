@@ -8,24 +8,27 @@ import org.slf4j.LoggerFactory;
 import xyz.jupp.discord.core.KlotzscherPub;
 import xyz.jupp.discord.core.KlotzscherPubGuild;
 import xyz.jupp.discord.utils.PrivateChannelBuilder;
+import xyz.jupp.discord.utils.SecretKey;
 
+import javax.annotation.Nonnull;
 import java.util.Locale;
 
-public class NickNameChangeListener extends ListenerAdapter {
+public class NicknameChangeListener extends ListenerAdapter {
 
     // logger
-    private final static Logger log = LoggerFactory.getLogger(NickNameChangeListener.class);
+    private final static Logger log = LoggerFactory.getLogger(NicknameChangeListener.class);
 
-    // list of badwords
-    private final static String[] listOfBadwords = {"hure", "hore", "whore", "bitch", "schlampe", "nutte", "nude",
-            "rape", "vergewaltig", "cunt", "fotze", "schuwchtel", "schwul", "nigger", "negger", "ficke", "hitler"};
 
     @Override
-    public void onGuildMemberUpdateNickname(@NotNull GuildMemberUpdateNicknameEvent event) {
+    public void onGuildMemberUpdateNickname(@Nonnull GuildMemberUpdateNicknameEvent event) {
         String oldName = event.getOldNickname();
         String newName = event.getNewNickname();
 
-        for (String badWord : listOfBadwords){
+        System.out.println(1);
+        System.out.println(1);
+        System.out.println("newName = " + newName);
+
+        for (String badWord : SecretKey.listOfBadwords){
             if (badWord.equals(cleanNickname(newName))){
                 KlotzscherPubGuild.getGuild().modifyNickname(event.getMember(), oldName).queue();
 
@@ -34,8 +37,8 @@ public class NickNameChangeListener extends ListenerAdapter {
 
                 log.info(KlotzscherPub.getPrefix() + "reset nickname from (" + event.getMember().getId() + ") [" + newName + "->" + oldName +" ]");
             }
-
         }
+
 
     }
 
@@ -43,6 +46,7 @@ public class NickNameChangeListener extends ListenerAdapter {
     private String cleanNickname(@NotNull String rawNickname){
         StringBuilder nickname = new StringBuilder();
         char[] nicknameArray = rawNickname.toCharArray();
+
 
         for (char c : nicknameArray){
             if (Character.isLetter(c)){
