@@ -1,18 +1,12 @@
 package xyz.jupp.discord.events;
 
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
-import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
+import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import xyz.jupp.discord.core.KlotzscherPub;
 import xyz.jupp.discord.core.KlotzscherPubGuild;
 import xyz.jupp.discord.database.RegularCollection;
@@ -56,9 +50,6 @@ public class RegularRoleListener extends ListenerAdapter {
                 long activeTime =  activeTimeFromDatabase + (actuallyTime - dateFromMember);
 
                 if (activeTimeFromDatabase < 15768000L) {
-                    if (activeTime < 10000L){
-                        return;
-                    }
                     regularCollection.updateDatetime(activeTime);
                 }else {
 
@@ -78,9 +69,10 @@ public class RegularRoleListener extends ListenerAdapter {
             memberChannelTime.remove(member.getId());
         }
 
-
-
     }
+
+
+
 
 
     /* Updates the group to the regular customer (only fot he G's) */
