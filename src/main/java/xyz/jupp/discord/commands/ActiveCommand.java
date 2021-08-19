@@ -22,8 +22,8 @@ public class ActiveCommand implements Command {
         log.info(KlotzscherPub.getPrefix() + "execute active command (" + member.getId() + ")");
 
         RegularCollection regularCollection = new RegularCollection(member);
-        long activeTime = regularCollection.getActiveTime();
-        String timeTextEnd = activeTime == 1 ? "1 Stunde" : TimeUnit.MILLISECONDS.toHours(activeTime) + " Stunden";
+        long activeTime = TimeUnit.MILLISECONDS.toHours(regularCollection.getActiveTime());
+        String timeTextEnd = activeTime == 1 ? "1 Stunde" : activeTime + " Stunden";
 
         EmbedMessageBuilder embedMessageBuilder = new EmbedMessageBuilder("Deine aktive Zeit beträgt: " + timeTextEnd, EmbedMessageBuilder.EmbedMessageTypes.INFO);
         event.getChannel().sendMessageEmbeds(embedMessageBuilder.getMessage().build()).queue();
