@@ -22,7 +22,14 @@ public class PrivateChannelBuilder {
 
     public void sendPrivateMessage(@NotNull User user){
         log.info(KlotzscherPub.getPrefix() + "send private message to " + user.getId());
-        EmbedMessageBuilder embedMessageBuilder = new EmbedMessageBuilder(content, EmbedMessageBuilder.EmbedMessageTypes.INFO);
+
+        EmbedMessageBuilder embedMessageBuilder = null;
+        if (privateChannelType != PrivateChannelType.INFO){
+            embedMessageBuilder = new EmbedMessageBuilder(content, EmbedMessageBuilder.EmbedMessageTypes.WARN);
+        }else {
+            embedMessageBuilder = new EmbedMessageBuilder(content, EmbedMessageBuilder.EmbedMessageTypes.INFO);
+        }
+
         user.openPrivateChannel().complete().sendMessageEmbeds(embedMessageBuilder.getMessage().build()).queue();
     }
 

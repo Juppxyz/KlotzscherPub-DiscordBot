@@ -4,6 +4,8 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
+import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.jupp.discord.commands.ActiveCommand;
@@ -18,6 +20,7 @@ import xyz.jupp.discord.events.RegularRoleListener;
 import xyz.jupp.discord.utils.SecretKey;
 
 import javax.security.auth.login.LoginException;
+import java.util.EnumSet;
 
 public class KlotzscherPub {
 
@@ -28,6 +31,9 @@ public class KlotzscherPub {
     private static Logger log = LoggerFactory.getLogger(KlotzscherPub.class);
 
 
+    private final static EnumSet<GatewayIntent> gatewayIntents = EnumSet.of(GatewayIntent.DIRECT_MESSAGES, GatewayIntent.GUILD_EMOJIS,
+            GatewayIntent.GUILD_VOICE_STATES, GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_PRESENCES);
+
     /** JDA Builder for the bot */
     private static JDA jda;
     public static JDA getJda() {
@@ -35,15 +41,13 @@ public class KlotzscherPub {
             log.info(prefix + "build the bot ..");
             try {
                 jda = JDABuilder.createDefault(SecretKey.key)
-                        .enableIntents(GatewayIntent.GUILD_MEMBERS)
-                        .addEventListeners(new OnReadyListener())
-                        .addEventListeners(new CommandHandler())
-                        .addEventListeners(new NicknameChangeListener())
-                        .addEventListeners(new OnGuildJoinListener())
-                        .addEventListeners(new RegularRoleListener())
+                        .disableCache(CacheFlag.ACTIVITY)
+                        .setMemberCachePolicy(MemberCachePolicy.ALL)
+                        .setEnabledIntents(GatewayIntent.GUILD_MEMBERS)
+                        .enableIntents(gatewayIntents)
+                        .setAutoReconnect(true)
+                        .addEventListeners(new OnReadyListener(), new CommandHandler(), new NicknameChangeListener(), new OnGuildJoinListener(), new RegularRoleListener())
                         .setActivity(Activity.playing("an der Bar")).build();
-
-                System.out.println(jda.getEventManager().getRegisteredListeners());
 
                 log.info(prefix + "register commands ..");
                 CommandHandler.addCommand(new NicknameResetCommand());

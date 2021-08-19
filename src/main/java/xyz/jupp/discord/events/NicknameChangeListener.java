@@ -23,21 +23,23 @@ public class NicknameChangeListener extends ListenerAdapter {
     public void onGuildMemberUpdateNickname(@Nonnull GuildMemberUpdateNicknameEvent event) {
         String oldName = event.getOldNickname();
         String newName = event.getNewNickname();
+        if (newName != null){
 
-        System.out.println(1);
-        System.out.println(1);
-        System.out.println("newName = " + newName);
+            for (String badWord : SecretKey.listOfBadwords){
+                String cleanNickname = cleanNickname(newName);
+                if (cleanNickname.contains(badWord)){
+                    KlotzscherPubGuild.getGuild().modifyNickname(event.getMember(), oldName).complete();
 
-        for (String badWord : SecretKey.listOfBadwords){
-            if (badWord.equals(cleanNickname(newName))){
-                KlotzscherPubGuild.getGuild().modifyNickname(event.getMember(), oldName).queue();
+                    PrivateChannelBuilder privateChannelBuilder = new PrivateChannelBuilder("❗️ Dein Nickname wurde wegen '" + newName + "' zurückgesetzt.", PrivateChannelBuilder.PrivateChannelType.WARN);
+                    privateChannelBuilder.sendPrivateMessage(event.getUser());
 
-                PrivateChannelBuilder privateChannelBuilder = new PrivateChannelBuilder("❗️Dein Nickname wurde wegen '" + newName + "' zurückgesetzt.", PrivateChannelBuilder.PrivateChannelType.WARN);
-                privateChannelBuilder.sendPrivateMessage(event.getUser());
-
-                log.info(KlotzscherPub.getPrefix() + "reset nickname from (" + event.getMember().getId() + ") [" + newName + "->" + oldName +" ]");
+                    log.info(KlotzscherPub.getPrefix() + "reset nickname from (" + event.getMember().getId() + ") [" + newName + "->" + oldName +" ]");
+                    break;
+                }
             }
+
         }
+
 
 
     }
@@ -51,7 +53,6 @@ public class NicknameChangeListener extends ListenerAdapter {
         for (char c : nicknameArray){
             if (Character.isLetter(c)){
                 nickname.append(c);
-                continue;
             }else if (Character.isDigit(c)){
                 String charString = String.valueOf(c);
                 int numberAtArray = Integer.parseInt(charString);
@@ -62,7 +63,6 @@ public class NicknameChangeListener extends ListenerAdapter {
                 }
             }
         }
-
 
         return nickname.toString().toLowerCase(Locale.ROOT);
     }

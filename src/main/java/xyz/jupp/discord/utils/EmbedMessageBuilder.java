@@ -56,7 +56,7 @@ public class EmbedMessageBuilder {
 
     public enum EmbedMessageTypes {
 
-        INFO, ERROR, BROADCAST
+        INFO, ERROR, BROADCAST, WARN
 
     }
 }
