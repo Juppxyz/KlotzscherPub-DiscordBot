@@ -24,8 +24,8 @@ public class PrivateChannelBuilder {
         log.info(KlotzscherPub.getPrefix() + "send private message to " + user.getId());
 
         EmbedMessageBuilder embedMessageBuilder = null;
-        if (privateChannelType != PrivateChannelType.INFO){
-            embedMessageBuilder = new EmbedMessageBuilder(content, EmbedMessageBuilder.EmbedMessageTypes.WARN);
+        if (privateChannelType == PrivateChannelType.ERROR){
+            embedMessageBuilder = new EmbedMessageBuilder(content, EmbedMessageBuilder.EmbedMessageTypes.ERROR);
         }else {
             embedMessageBuilder = new EmbedMessageBuilder(content, EmbedMessageBuilder.EmbedMessageTypes.INFO);
         }

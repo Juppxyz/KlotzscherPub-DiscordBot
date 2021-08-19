@@ -23,17 +23,22 @@ public class NicknameChangeListener extends ListenerAdapter {
     public void onGuildMemberUpdateNickname(@Nonnull GuildMemberUpdateNicknameEvent event) {
         String oldName = event.getOldNickname();
         String newName = event.getNewNickname();
+
         if (newName != null){
+            if (oldName == null){
+                oldName = event.getMember().getEffectiveName();
+            }
+
 
             for (String badWord : SecretKey.listOfBadwords){
                 String cleanNickname = cleanNickname(newName);
                 if (cleanNickname.contains(badWord)){
                     KlotzscherPubGuild.getGuild().modifyNickname(event.getMember(), oldName).complete();
 
-                    PrivateChannelBuilder privateChannelBuilder = new PrivateChannelBuilder("❗️ Dein Nickname wurde wegen '" + newName + "' zurückgesetzt.", PrivateChannelBuilder.PrivateChannelType.WARN);
+                    PrivateChannelBuilder privateChannelBuilder = new PrivateChannelBuilder("❗️ Dein Nickname wurde wegen '" + newName + "' zurückgesetzt.", PrivateChannelBuilder.PrivateChannelType.ERROR);
                     privateChannelBuilder.sendPrivateMessage(event.getUser());
 
-                    log.info(KlotzscherPub.getPrefix() + "reset nickname from (" + event.getMember().getId() + ") [" + newName + "->" + oldName +" ]");
+                    log.info(KlotzscherPub.getPrefix() + "reset nickname from (" + event.getMember().getId() + ") [" + newName + "->" + oldName + " ]");
                     break;
                 }
             }
