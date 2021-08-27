@@ -1,6 +1,7 @@
 package xyz.jupp.discord.events;
 
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -28,8 +29,10 @@ public class RegularRoleListener extends ListenerAdapter {
     public void onGuildVoiceJoin(GuildVoiceJoinEvent event) {
         Member member = event.getMember();
 
-        if (!memberChannelTime.containsKey(member.getId())){
-            memberChannelTime.put(member.getId(), new Date());
+        if (!event.getMember().getUser().isBot()){
+            if (!memberChannelTime.containsKey(member.getId())){
+                memberChannelTime.put(member.getId(), new Date());
+            }
         }
 
     }
@@ -49,16 +52,19 @@ public class RegularRoleListener extends ListenerAdapter {
 
                 long activeTime =  activeTimeFromDatabase + (actuallyTime - dateFromMember);
 
-                if (activeTimeFromDatabase < 15768000L) {
+                if (activeTimeFromDatabase < 5259600000L) {
                     regularCollection.updateDatetime(activeTime);
                 }else {
 
-                    EmbedMessageBuilder embedMessageBuilder =
-                            new EmbedMessageBuilder(member.getAsMention() + " ist nach Stunden langen saufen zum Stammkunden ernannt wurden!"
-                                    , EmbedMessageBuilder.EmbedMessageTypes.BROADCAST);
+                    if (updateRole(member)){
+                        EmbedMessageBuilder embedMessageBuilder =
+                                new EmbedMessageBuilder(member.getAsMention() + " ist nun ein Stammkunde. Glückwunsch!"
+                                        , EmbedMessageBuilder.EmbedMessageTypes.BROADCAST);
 
-                    KlotzscherPubGuild.getMainTextChannel().sendMessageEmbeds(embedMessageBuilder.getMessage().build()).queue();
-                    updateRole(member);
+                        KlotzscherPubGuild.getMainTextChannel().sendMessageEmbeds(embedMessageBuilder.getMessage().build()).queue();
+
+                    }
+
                 }
 
             }else {
@@ -76,9 +82,16 @@ public class RegularRoleListener extends ListenerAdapter {
 
 
     /* Updates the group to the regular customer (only fot he G's) */
-    private void updateRole(@NotNull Member member) {
+    private boolean updateRole(@NotNull Member member) {
+        for (Role s : member.getRoles()){
+            if (s.getName().equals("Stammkunde")){
+                return false;
+            }
+        }
+
         KlotzscherPubGuild.getGuild().addRoleToMember(member.getId(), KlotzscherPubGuild.getGuild().getRoleById(628302155782029332L)).complete();
         log.info(KlotzscherPub.getPrefix() + "updated role for " + member.getId() + " to Stammkunde.");
+        return true;
     }
 
 }

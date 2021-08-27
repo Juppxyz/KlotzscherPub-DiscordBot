@@ -25,7 +25,7 @@ public class ActiveCommand implements Command {
         long activeTime = TimeUnit.MILLISECONDS.toHours(regularCollection.getActiveTime());
         String timeTextEnd = activeTime == 1 ? "1 Stunde" : activeTime + " Stunden";
 
-        EmbedMessageBuilder embedMessageBuilder = new EmbedMessageBuilder("Deine aktive Zeit beträgt: " + timeTextEnd, EmbedMessageBuilder.EmbedMessageTypes.INFO);
+        EmbedMessageBuilder embedMessageBuilder = new EmbedMessageBuilder("⏱️ Deine aktive Zeit beträgt: " + timeTextEnd, EmbedMessageBuilder.EmbedMessageTypes.INFO);
         event.getChannel().sendMessageEmbeds(embedMessageBuilder.getMessage().build()).queue();
     }
 
