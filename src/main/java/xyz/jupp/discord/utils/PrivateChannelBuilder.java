@@ -30,7 +30,7 @@ public class PrivateChannelBuilder {
             embedMessageBuilder = new EmbedMessageBuilder(content, EmbedMessageBuilder.EmbedMessageTypes.INFO);
         }
 
-        user.openPrivateChannel().complete().sendMessageEmbeds(embedMessageBuilder.getMessage().build()).queue();
+        user.openPrivateChannel().complete().sendMessageEmbeds(embedMessageBuilder.getMessage(null).build()).queue();
     }
 
 

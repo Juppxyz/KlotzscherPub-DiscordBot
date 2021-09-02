@@ -1,6 +1,5 @@
 package xyz.jupp.discord.database;
 
-import com.mongodb.Mongo;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import net.dv8tion.jda.api.entities.Member;
@@ -10,6 +9,8 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.jupp.discord.core.KlotzscherPub;
+
+import java.util.HashMap;
 
 import static com.mongodb.client.model.Filters.eq;
 
@@ -57,6 +58,20 @@ public class RegularCollection {
         }
 
         return 0;
+    }
+
+
+    // get all user and the active time  from the database
+    public HashMap<String, Long> getAllActiveTimesFromUsers() {
+        FindIterable<Document> iterable = getMongoCollection().find();
+        HashMap<String, Long> userActiveTimesMap = new HashMap<>();
+        for (Document document : iterable){
+            String username = document.getString("member_name");
+            long activeTime = document.getLong("active_time");
+            userActiveTimesMap.put(username, activeTime);
+        }
+
+        return userActiveTimesMap;
     }
 
 

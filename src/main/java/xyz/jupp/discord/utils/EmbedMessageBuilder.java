@@ -2,6 +2,7 @@ package xyz.jupp.discord.utils;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
 
@@ -19,18 +20,20 @@ public class EmbedMessageBuilder {
 
 
 
-    public EmbedBuilder getMessage(){
+    public EmbedBuilder getMessage(@Nullable String footer){
         EmbedBuilder embedBuilder = new EmbedBuilder();
         Color color = Color.green;
-        String footer = "";
 
-        if (embedMessageTypes == EmbedMessageTypes.INFO){
+        if (getEmbedMessageTypes() == EmbedMessageTypes.INFO){
             color = Color.BLUE;
-            footer = "";
-        }else if (embedMessageTypes == EmbedMessageTypes.BROADCAST){
+        }else if (getEmbedMessageTypes() == EmbedMessageTypes.BROADCAST){
             color = Color.ORANGE;
-        }else if (embedMessageTypes == EmbedMessageTypes.ERROR){
+        }else if (getEmbedMessageTypes() == EmbedMessageTypes.ERROR){
             color = Color.RED;
+        }
+
+        if (footer != null){
+            embedBuilder.setFooter(footer);
         }
 
         embedBuilder.setDescription(getContent());
