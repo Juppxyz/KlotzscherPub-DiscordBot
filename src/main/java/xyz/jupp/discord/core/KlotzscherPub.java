@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import xyz.jupp.discord.commands.ActiveCommand;
 import xyz.jupp.discord.commands.HelpCommand;
 import xyz.jupp.discord.commands.NicknameResetCommand;
+import xyz.jupp.discord.commands.TopCommand;
 import xyz.jupp.discord.commands.handler.CommandHandler;
 import xyz.jupp.discord.database.MongoDB;
 import xyz.jupp.discord.events.NicknameChangeListener;
@@ -53,6 +54,7 @@ public class KlotzscherPub {
                 CommandHandler.addCommand(new NicknameResetCommand());
                 CommandHandler.addCommand(new ActiveCommand());
                 CommandHandler.addCommand(new HelpCommand());
+                CommandHandler.addCommand(new TopCommand());
 
                 log.info(prefix + "try to create connection with mongodb ..");
                 MongoDB.getInstance();

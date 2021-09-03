@@ -2,6 +2,7 @@ package xyz.jupp.discord.events;
 
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -28,8 +29,9 @@ public class RegularRoleListener extends ListenerAdapter {
     @Override
     public void onGuildVoiceJoin(GuildVoiceJoinEvent event) {
         Member member = event.getMember();
+        VoiceChannel channel = KlotzscherPubGuild.getGuild().getVoiceChannelById(628525193236840458L);
 
-        if (!event.getMember().getUser().isBot()){
+        if (!(event.getMember().getUser().isBot()) && !(event.getChannelJoined().getIdLong() == channel.getIdLong())){
             if (!memberChannelTime.containsKey(member.getId())){
                 memberChannelTime.put(member.getId(), new Date());
             }
