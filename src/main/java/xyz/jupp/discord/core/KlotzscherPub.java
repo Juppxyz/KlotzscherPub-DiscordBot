@@ -14,10 +14,7 @@ import xyz.jupp.discord.commands.NicknameResetCommand;
 import xyz.jupp.discord.commands.TopCommand;
 import xyz.jupp.discord.commands.handler.CommandHandler;
 import xyz.jupp.discord.database.MongoDB;
-import xyz.jupp.discord.events.NicknameChangeListener;
-import xyz.jupp.discord.events.OnGuildJoinListener;
-import xyz.jupp.discord.events.OnReadyListener;
-import xyz.jupp.discord.events.RegularRoleListener;
+import xyz.jupp.discord.events.*;
 import xyz.jupp.discord.utils.SecretKey;
 
 import javax.security.auth.login.LoginException;
@@ -47,7 +44,8 @@ public class KlotzscherPub {
                         .setEnabledIntents(GatewayIntent.GUILD_MEMBERS)
                         .enableIntents(gatewayIntents)
                         .setAutoReconnect(true)
-                        .addEventListeners(new OnReadyListener(), new CommandHandler(), new NicknameChangeListener(), new OnGuildJoinListener(), new RegularRoleListener())
+                        .addEventListeners(new OnReadyListener(), new CommandHandler(), new NicknameChangeListener(),
+                                           new OnGuildJoinListener(), new RegularRoleListener(), new RoleChangeListener())
                         .setActivity(Activity.playing("an der Bar")).build();
 
                 log.info(prefix + "register commands ..");
