@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.jupp.discord.core.KlotzscherPub;
 import xyz.jupp.discord.core.KlotzscherPubGuild;
+import xyz.jupp.discord.database.RegularCollection;
 
 import java.util.List;
 
@@ -24,11 +25,16 @@ public class RoleChangeListener extends ListenerAdapter {
         List<Role> roles = member.getRoles();
         long regularRoleID = 628302155782029332L;
 
-        for (Role role : roles) {
-            if (role.getIdLong() == regularRoleID){
-                log.info(KlotzscherPub.getPrefix() + "remove regular role from " + member.getId());
-                KlotzscherPubGuild.getGuild().removeRoleFromMember(member.getIdLong(), KlotzscherPubGuild.getGuild().getRoleById(regularRoleID)).queue();
-                break;
+        RegularCollection regularCollection = new RegularCollection(member);
+
+        if (!(regularCollection.getActiveTime() >= 5259600000L)) {
+
+            for (Role role : roles) {
+                if (role.getIdLong() == regularRoleID) {
+                    log.info(KlotzscherPub.getPrefix() + "remove regular role from " + member.getId());
+                    KlotzscherPubGuild.getGuild().removeRoleFromMember(member.getIdLong(), KlotzscherPubGuild.getGuild().getRoleById(regularRoleID)).queue();
+                    break;
+                }
             }
         }
 
