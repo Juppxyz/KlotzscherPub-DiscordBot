@@ -35,9 +35,12 @@ public class RegularRoleListener extends ListenerAdapter {
             if (!memberChannelTime.containsKey(member.getId())){
                 memberChannelTime.put(member.getId(), new Date());
             }
+        }else {
+            log.info(KlotzscherPub.getPrefix() + member.getId() + " went into the afk room." );
         }
 
     }
+
 
 
 
@@ -50,12 +53,15 @@ public class RegularRoleListener extends ListenerAdapter {
             if (regularCollection.existMemberInDatabase()){
                 long dateFromMember = memberChannelTime.get(member.getId()).getTime();
                 long actuallyTime = new Date().getTime();
+
                 long activeTimeFromDatabase = regularCollection.getActiveTime();
 
                 long activeTime =  activeTimeFromDatabase + (actuallyTime - dateFromMember);
 
                 if (activeTimeFromDatabase < 5259600000L) {
+
                     regularCollection.updateDatetime(activeTime);
+
                 }else {
 
                     if (updateRole(member)){
@@ -92,7 +98,7 @@ public class RegularRoleListener extends ListenerAdapter {
         }
 
         KlotzscherPubGuild.getGuild().addRoleToMember(member.getId(), KlotzscherPubGuild.getGuild().getRoleById(628302155782029332L)).complete();
-        log.info(KlotzscherPub.getPrefix() + "updated role for " + member.getId() + " to Stammkunde.");
+        log.info(KlotzscherPub.getPrefix() + "updated role for " + member.getId() + " to Stammkunde. ");
         return true;
     }
 

@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.jupp.discord.core.KlotzscherPub;
+import xyz.jupp.discord.utils.TimeUtil;
 
 import java.util.HashMap;
 
@@ -44,7 +45,7 @@ public class RegularCollection {
             Bson updatedDocument = new Document("active_time", activeTime);
 
             getMongoCollection().updateOne(searchFilter, new Document("$set", updatedDocument));
-            log.info(KlotzscherPub.getPrefix() + "updated active_time for " + member.getId());
+            log.info(KlotzscherPub.getPrefix() + "updated active_time for " + member.getId() + ". (" + TimeUtil.getDateTime() + ")");
         }
 
     }
@@ -75,13 +76,14 @@ public class RegularCollection {
     }
 
 
+
     public void createNewMemberInDatabase() {
         if (!existMemberInDatabase()){
             Document document = new Document("member_id", member.getId());
             document.append("member_name",member.getEffectiveName());
             document.append("active_time", 0L);
             getMongoCollection().insertOne(document);
-            log.info(KlotzscherPub.getPrefix() + "create new member (" + member.getEffectiveName() + ") in database.");
+            log.info(KlotzscherPub.getPrefix() + "create new member (" + member.getEffectiveName() + ") in database. " + " (" + TimeUtil.getDateTime() + ")");
         }else {
             log.info(KlotzscherPub.getPrefix() + "tried to create an existing member. (0.1.1)");
         }

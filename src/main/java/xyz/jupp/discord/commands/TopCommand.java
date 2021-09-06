@@ -12,6 +12,7 @@ import xyz.jupp.discord.utils.EmbedMessageBuilder;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class TopCommand implements Command {
 
@@ -30,7 +31,11 @@ public class TopCommand implements Command {
 
         for (Map.Entry<String, Long> entry : userActiveTimesMap.entrySet()){
             if (entry.getValue() == max){
-                EmbedMessageBuilder embedBuilder = new EmbedMessageBuilder("\uD83C\uDFC6 King of the Hill ist: " + entry.getKey(), EmbedMessageBuilder.EmbedMessageTypes.INFO);
+
+                long activeTime = TimeUnit.MILLISECONDS.toHours(userActiveTimesMap.get(entry.getKey()));
+                String timeText = activeTime == 1 ? "1 Stunde" : activeTime + " Stunden";
+
+                EmbedMessageBuilder embedBuilder = new EmbedMessageBuilder("\uD83C\uDFC6 King of the Hill ist: " + entry.getKey() + ", mit stolzen " + timeText + "!", EmbedMessageBuilder.EmbedMessageTypes.INFO);
                 event.getChannel().sendMessageEmbeds(embedBuilder.getMessage(null).build()).queue();
                 break;
             }
