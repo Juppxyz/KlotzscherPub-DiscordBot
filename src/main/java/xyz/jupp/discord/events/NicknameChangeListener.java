@@ -33,7 +33,7 @@ public class NicknameChangeListener extends ListenerAdapter {
             for (String badWord : SecretKey.listOfBadwords){
                 String cleanNickname = cleanNickname(newName);
                 if (cleanNickname.contains(badWord)){
-                    KlotzscherPubGuild.getGuild().modifyNickname(event.getMember(), oldName).complete();
+                    KlotzscherPubGuild.getGuild().modifyNickname(event.getMember(), oldName).queue();
 
                     PrivateChannelBuilder privateChannelBuilder = new PrivateChannelBuilder("❗️ Dein Nickname wurde wegen '" + newName + "' zurückgesetzt.", PrivateChannelBuilder.PrivateChannelType.ERROR);
                     privateChannelBuilder.sendPrivateMessage(event.getUser());
