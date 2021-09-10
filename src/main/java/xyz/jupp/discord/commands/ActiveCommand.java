@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import xyz.jupp.discord.commands.handler.Command;
 import xyz.jupp.discord.core.KlotzscherPub;
 import xyz.jupp.discord.database.RegularCollection;
-import xyz.jupp.discord.utils.EmbedMessageBuilder;
+import xyz.jupp.discord.utils.PrivateChannelBuilder;
 
 import java.util.concurrent.TimeUnit;
 
@@ -26,10 +26,13 @@ public class ActiveCommand implements Command {
         long activeTime = TimeUnit.MILLISECONDS.toHours(regularCollection.getActiveTime());
         String timeText = activeTime == 1 ? "1 Stunde" : activeTime + " Stunden";
 
-        EmbedMessageBuilder embedBuilder = new EmbedMessageBuilder("⏱️ Deine aktive Zeit beträgt: " + timeText, EmbedMessageBuilder.EmbedMessageTypes.INFO);
-        event.getChannel().sendMessageEmbeds(embedBuilder.getMessage(member.getEffectiveName()).build()).queue();
 
- }
+        PrivateChannelBuilder privateChannelBuilder = new PrivateChannelBuilder("⏱️ Deine aktive Zeit beträgt: " + timeText, PrivateChannelBuilder.PrivateChannelType.INFO);
+        privateChannelBuilder.sendPrivateMessage(member.getUser());
+
+    }
+
+
 
     @Override
     public String getCommand() {
