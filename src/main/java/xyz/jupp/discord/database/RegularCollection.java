@@ -6,12 +6,10 @@ import net.dv8tion.jda.api.entities.Member;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import xyz.jupp.discord.core.KlotzscherPub;
-import xyz.jupp.discord.utils.TimeUtil;
+import xyz.jupp.discord.log.LoggerUtil;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import static com.mongodb.client.model.Filters.eq;
 
@@ -19,7 +17,7 @@ public class RegularCollection {
     private RegularCollection () {}
 
     // logger
-    private final static Logger log = LoggerFactory.getLogger(RegularCollection.class);
+    private final static LoggerUtil log = new LoggerUtil(RegularCollection.class.getSimpleName());
 
     private Member member;
     private final MongoCollection<Document> mongoCollection = MongoDB.getInstance().getDatabase().getCollection("stammkunden");
@@ -45,7 +43,7 @@ public class RegularCollection {
             Bson updatedDocument = new Document("active_time", activeTime);
 
             getMongoCollection().updateOne(searchFilter, new Document("$set", updatedDocument));
-            log.info(KlotzscherPub.getPrefix() + "updated active_time for " + member.getId() + ". (" + TimeUtil.getDateTime() + ")");
+            log.log("updated active_time", member.getId());
         }
 
     }
@@ -54,8 +52,12 @@ public class RegularCollection {
     public long getActiveTime() {
         Bson searchFiler = eq("member_id", member.getId());
         FindIterable<Document> iterable = getMongoCollection().find(searchFiler);
-        if (iterable.cursor().hasNext()){
-            return iterable.cursor().next().getLong("active_time");
+        Document document = iterable.cursor().next();
+        for (Map.Entry<String, Object> entry : document.entrySet()){
+            if (entry.getKey().equals("active_time")){
+                return Long.parseLong(String.valueOf(entry.getValue()));
+            }
+
         }
 
         return 0;
@@ -83,9 +85,9 @@ public class RegularCollection {
             document.append("member_name",member.getEffectiveName());
             document.append("active_time", 0L);
             getMongoCollection().insertOne(document);
-            log.info(KlotzscherPub.getPrefix() + "create new member (" + member.getEffectiveName() + ") in database. " + " (" + TimeUtil.getDateTime() + ")");
+            log.log("create new member in collection.", member.getEffectiveName());
         }else {
-            log.info(KlotzscherPub.getPrefix() + "tried to create an existing member. (0.1.1)");
+            log.warn("tried to create an existing member.", "v0.0.1");
         }
 
     }

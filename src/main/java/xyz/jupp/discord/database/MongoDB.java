@@ -5,9 +5,9 @@ import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import xyz.jupp.discord.core.KlotzscherPub;
+import org.bson.Document;
+import org.jetbrains.annotations.NotNull;
+import xyz.jupp.discord.log.LoggerUtil;
 import xyz.jupp.discord.utils.SecretKey;
 
 
@@ -18,16 +18,21 @@ public class MongoDB {
      * The MongoClient will be connect to the database server.*/
 
     // logger
-    private final static Logger log = LoggerFactory.getLogger(MongoDB.class);
+    private final static LoggerUtil logger = new LoggerUtil(MongoDB.class.getSimpleName());
 
     // single pattern
     private static MongoDB instance = null;
     public synchronized static MongoDB getInstance() {
         if (instance == null){
-            log.info(KlotzscherPub.getPrefix() + "connected to database.");
+            logger.log("connected to database.");
             instance = new MongoDB();
         }
         return instance;
+    }
+
+
+    public void insertLog(@NotNull Document document) {
+        getDatabase().getCollection("logs").insertOne(document);
     }
 
 

@@ -3,10 +3,8 @@ package xyz.jupp.discord.events;
 import net.dv8tion.jda.api.events.guild.member.update.GuildMemberUpdateNicknameEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import xyz.jupp.discord.core.KlotzscherPub;
 import xyz.jupp.discord.core.KlotzscherPubGuild;
+import xyz.jupp.discord.log.LoggerUtil;
 import xyz.jupp.discord.utils.PrivateChannelBuilder;
 import xyz.jupp.discord.utils.SecretKey;
 
@@ -16,7 +14,7 @@ import java.util.Locale;
 public class NicknameChangeListener extends ListenerAdapter {
 
     // logger
-    private final static Logger log = LoggerFactory.getLogger(NicknameChangeListener.class);
+    private final static LoggerUtil logger = new LoggerUtil(NicknameChangeListener.class.getSimpleName());
 
 
     @Override
@@ -38,7 +36,7 @@ public class NicknameChangeListener extends ListenerAdapter {
                     PrivateChannelBuilder privateChannelBuilder = new PrivateChannelBuilder("❗️ Dein Nickname wurde wegen '" + newName + "' zurückgesetzt.", PrivateChannelBuilder.PrivateChannelType.ERROR);
                     privateChannelBuilder.sendPrivateMessage(event.getUser());
 
-                    log.info(KlotzscherPub.getPrefix() + "reset nickname from (" + event.getMember().getId() + ") [" + newName + "->" + oldName + " ]");
+                    logger.log("reset nickname [" + oldName + " -> " + newName + "]", event.getMember().getId());
                     break;
                 }
             }

@@ -2,11 +2,9 @@ package xyz.jupp.discord.commands;
 
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import xyz.jupp.discord.commands.handler.Command;
-import xyz.jupp.discord.core.KlotzscherPub;
 import xyz.jupp.discord.database.RegularCollection;
+import xyz.jupp.discord.log.LoggerUtil;
 import xyz.jupp.discord.utils.EmbedMessageBuilder;
 
 import java.util.Collections;
@@ -17,13 +15,13 @@ import java.util.concurrent.TimeUnit;
 public class TopCommand implements Command {
 
     // logger
-    private final static Logger log = LoggerFactory.getLogger(TopCommand.class);
+    private final static LoggerUtil logger = new LoggerUtil(TopCommand.class.getSimpleName());
 
 
     @Override
     public void action(String[] args, GuildMessageReceivedEvent event) {
         Member member = event.getMember();
-        log.info(KlotzscherPub.getPrefix() + "execute top command (" + member.getId() + ")");
+        logger.log("execute top command", member.getId());
         RegularCollection regularCollection = new RegularCollection(member);
 
         HashMap<String, Long> userActiveTimesMap = regularCollection.getAllActiveTimesFromUsers();

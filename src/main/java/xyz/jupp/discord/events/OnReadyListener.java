@@ -4,27 +4,26 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import xyz.jupp.discord.core.KlotzscherPub;
 import xyz.jupp.discord.core.KlotzscherPubGuild;
+import xyz.jupp.discord.log.LoggerUtil;
 
 import java.util.List;
 
 public class OnReadyListener extends ListenerAdapter {
 
-    private final static Logger log = LoggerFactory.getLogger(OnReadyListener.class);
+    private final static LoggerUtil logger = new LoggerUtil(OnReadyListener.class.getSimpleName());
 
 
     @Override
     public void onReady(@NotNull ReadyEvent event) {
         if (!checkGuilds()){
-            log.error(KlotzscherPub.getPrefix() + "the bot can only be used on the KlotzscherPub discord.");
+            logger.error("the bot can only be used on the KlotzscherPub discord.", null);
             KlotzscherPub.shutdown();
             return;
         }
 
-        log.info(KlotzscherPub.getPrefix() + "the bot is only on the KlotzscherPub guild.");
+        logger.log("the bot is only on the KlotzscherPub guild.");
 
     }
 

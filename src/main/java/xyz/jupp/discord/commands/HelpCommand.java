@@ -2,22 +2,21 @@ package xyz.jupp.discord.commands;
 
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import xyz.jupp.discord.commands.handler.Command;
 import xyz.jupp.discord.core.KlotzscherPub;
 import xyz.jupp.discord.core.KlotzscherPubGuild;
+import xyz.jupp.discord.log.LoggerUtil;
 import xyz.jupp.discord.utils.PrivateChannelBuilder;
 
 public class HelpCommand implements Command {
 
     // logger
-    private final static Logger log = LoggerFactory.getLogger(HelpCommand.class);
+    private final static LoggerUtil log = new LoggerUtil(HelpCommand.class.getSimpleName());
 
     @Override
     public void action(String[] args, GuildMessageReceivedEvent event) {
         Member member = event.getMember();
-        log.info(KlotzscherPub.getPrefix() + "execute help command (" + member.getId() +")");
+        log.log("execute help command", member.getId());
         PrivateChannelBuilder privateChannelBuilder = new PrivateChannelBuilder(getHelpMessage(), PrivateChannelBuilder.PrivateChannelType.INFO);
         privateChannelBuilder.sendPrivateMessage(event.getAuthor());
     }
