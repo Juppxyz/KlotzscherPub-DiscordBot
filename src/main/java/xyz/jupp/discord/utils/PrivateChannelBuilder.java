@@ -2,14 +2,12 @@ package xyz.jupp.discord.utils;
 
 import net.dv8tion.jda.api.entities.User;
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import xyz.jupp.discord.core.KlotzscherPub;
+import xyz.jupp.discord.log.LoggerUtil;
 
 public class PrivateChannelBuilder {
 
     // logger
-    private final static Logger log = LoggerFactory.getLogger(PrivateChannelBuilder.class);
+    private final static LoggerUtil log = new LoggerUtil(PrivateChannelBuilder.class.getSimpleName());
 
     // knowledge variables
     private String content;
@@ -21,7 +19,7 @@ public class PrivateChannelBuilder {
     }
 
     public void sendPrivateMessage(@NotNull User user){
-        log.info(KlotzscherPub.getPrefix() + "send private message to " + user.getId());
+        log.log("send private message to ", user.getId());
 
         EmbedMessageBuilder embedMessageBuilder = null;
         if (privateChannelType == PrivateChannelType.ERROR){
