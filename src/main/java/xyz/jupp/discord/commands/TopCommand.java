@@ -7,9 +7,6 @@ import xyz.jupp.discord.database.RegularCollection;
 import xyz.jupp.discord.log.LoggerUtil;
 import xyz.jupp.discord.utils.EmbedMessageBuilder;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class TopCommand implements Command {
@@ -23,21 +20,18 @@ public class TopCommand implements Command {
         Member member = event.getMember();
         logger.log("execute top command", member.getId());
         RegularCollection regularCollection = new RegularCollection(member);
+        String[] userActiveTimesMap = regularCollection.getMostActiveTimeUser();
 
-        HashMap<String, Long> userActiveTimesMap = regularCollection.getAllActiveTimesFromUsers();
-        Long max = Collections.max(userActiveTimesMap.values());
+        String member_name = userActiveTimesMap[0];
+        String active_time = userActiveTimesMap[1];
 
-        for (Map.Entry<String, Long> entry : userActiveTimesMap.entrySet()){
-            if (entry.getValue() == max){
 
-                long activeTime = TimeUnit.MILLISECONDS.toHours(userActiveTimesMap.get(entry.getKey()));
-                String timeText = activeTime == 1 ? "1 Stunde" : activeTime + " Stunden";
+        long activeTime = TimeUnit.MILLISECONDS.toHours(Long.parseLong(active_time));
+        String timeText = activeTime == 1 ? "1 Stunde" : activeTime + " Stunden";
 
-                EmbedMessageBuilder embedBuilder = new EmbedMessageBuilder("\uD83C\uDFC6 King of the Hill ist: " + entry.getKey() + ", mit stolzen " + timeText + "!", EmbedMessageBuilder.EmbedMessageTypes.INFO);
-                event.getChannel().sendMessageEmbeds(embedBuilder.getMessage(null).build()).queue();
-                break;
-            }
-        }
+
+        EmbedMessageBuilder embedBuilder = new EmbedMessageBuilder("\uD83C\uDFC6 King of the Hill ist: " + member_name+ ", mit stolzen " + timeText + "!", EmbedMessageBuilder.EmbedMessageTypes.INFO);
+        event.getChannel().sendMessageEmbeds(embedBuilder.getMessage(null).build()).queue();
 
 
     }

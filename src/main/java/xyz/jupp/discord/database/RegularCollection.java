@@ -8,7 +8,6 @@ import org.bson.conversions.Bson;
 import org.jetbrains.annotations.NotNull;
 import xyz.jupp.discord.log.LoggerUtil;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import static com.mongodb.client.model.Filters.eq;
@@ -64,19 +63,13 @@ public class RegularCollection {
     }
 
 
-    // get all user and the active time  from the database
-    public HashMap<String, Long> getAllActiveTimesFromUsers() {
-        FindIterable<Document> iterable = getMongoCollection().find();
-        HashMap<String, Long> userActiveTimesMap = new HashMap<>();
-        for (Document document : iterable){
-            String username = document.getString("member_name");
-            long activeTime = document.getLong("active_time");
-            userActiveTimesMap.put(username, activeTime);
-        }
-
-        return userActiveTimesMap;
+    public String[] getMostActiveTimeUser() {
+        Bson sortCondition = new Document("active_time", -1);
+        FindIterable<Document> documentFindIterable = getMongoCollection().find().sort(sortCondition).limit(1);
+        Document document = documentFindIterable.first();
+        String[] result = {document.getString("member_name"), String.valueOf(document.getLong("active_time"))};
+        return result;
     }
-
 
 
     public void createNewMemberInDatabase() {

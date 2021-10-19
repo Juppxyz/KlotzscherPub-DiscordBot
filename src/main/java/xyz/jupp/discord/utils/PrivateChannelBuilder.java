@@ -19,7 +19,7 @@ public class PrivateChannelBuilder {
     }
 
     public void sendPrivateMessage(@NotNull User user){
-        log.log("send private message to ", user.getId());
+        log.log("send private message", user.getId());
 
         EmbedMessageBuilder embedMessageBuilder = null;
         if (privateChannelType == PrivateChannelType.ERROR){
