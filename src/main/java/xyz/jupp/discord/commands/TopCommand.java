@@ -25,14 +25,11 @@ public class TopCommand implements Command {
         String member_name = userActiveTimesMap[0];
         String active_time = userActiveTimesMap[1];
 
-
         long activeTime = TimeUnit.MILLISECONDS.toHours(Long.parseLong(active_time));
         String timeText = activeTime == 1 ? "1 Stunde" : activeTime + " Stunden";
 
-
         EmbedMessageBuilder embedBuilder = new EmbedMessageBuilder("\uD83C\uDFC6 King of the Hill ist: " + member_name+ ", mit stolzen " + timeText + "!", EmbedMessageBuilder.EmbedMessageTypes.INFO);
         event.getChannel().sendMessageEmbeds(embedBuilder.getMessage(null).build()).queue();
-
 
     }
 

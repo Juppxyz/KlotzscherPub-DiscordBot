@@ -28,7 +28,7 @@ public class CommandHandler extends ListenerAdapter {
             String[] args = msg.split(" ");
 
             for (Command command : getCommands()) {
-                if (command.getCommand().equalsIgnoreCase(msg)) {
+                if (command.getCommand().startsWith(args[0])) {
                     command.action(args, event);
                     event.getMessage().delete().queue();
                 }

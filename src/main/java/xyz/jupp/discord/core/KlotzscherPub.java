@@ -8,7 +8,6 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import xyz.jupp.discord.commands.ActiveCommand;
 import xyz.jupp.discord.commands.HelpCommand;
-import xyz.jupp.discord.commands.NicknameResetCommand;
 import xyz.jupp.discord.commands.TopCommand;
 import xyz.jupp.discord.commands.handler.CommandHandler;
 import xyz.jupp.discord.database.MongoDB;
@@ -43,12 +42,14 @@ public class KlotzscherPub {
                         .setEnabledIntents(GatewayIntent.GUILD_MEMBERS)
                         .enableIntents(gatewayIntents)
                         .setAutoReconnect(true)
-                        .addEventListeners(new OnReadyListener(), new CommandHandler(), new NicknameChangeListener(),
-                                           new OnGuildJoinListener(), new RegularRoleListener(), new RoleChangeListener())
+                        .addEventListeners(new OnReadyListener(), new CommandHandler(),
+                                           new NicknameChangeListener(), new OnGuildJoinListener(),
+                                           new RegularRoleListener(), new RoleChangeListener())
                         .setActivity(Activity.playing("an der Bar")).build();
 
                 logger.log("register commands ..");
-                CommandHandler.addCommand(new NicknameResetCommand());
+
+                //CommandHandler.addCommand(new DebugCommand());
                 CommandHandler.addCommand(new ActiveCommand());
                 CommandHandler.addCommand(new HelpCommand());
                 CommandHandler.addCommand(new TopCommand());

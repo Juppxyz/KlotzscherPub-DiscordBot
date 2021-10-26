@@ -1,21 +1,23 @@
 package xyz.jupp.discord.commands.handler;
 
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-
-import java.util.List;
 
 public interface Command {
 
     default boolean permissionCheck(GuildMessageReceivedEvent event){
-        if (event.getChannel().getId().equals("796428306228052010")){
-            List<Role> roleList = event.getGuild().getRoles();
-            for (Role role : roleList) {
-                if (role.getName().equalsIgnoreCase("manager") || role.getName().equalsIgnoreCase("boss")){
-                    return true;
-                }
+        Member member = event.getMember();
+
+        long bossId = 628250586806091816L;
+        long managerId = 628301763765862429L;
+
+        for (Role role : member.getRoles()){
+            if (role.getIdLong() == bossId || role.getIdLong() == managerId){
+                return true;
             }
         }
+
         return false;
     }
 

@@ -32,7 +32,7 @@ public class RegularCollection {
     public boolean existMemberInDatabase(){
         Bson searchFilter = eq("member_id", member.getId());
         FindIterable<Document> iterable = getMongoCollection().find(searchFilter);
-        return iterable.cursor().hasNext();
+        return iterable.cursor().next() != null;
     }
 
 
@@ -56,7 +56,6 @@ public class RegularCollection {
             if (entry.getKey().equals("active_time")){
                 return Long.parseLong(String.valueOf(entry.getValue()));
             }
-
         }
 
         return 0;

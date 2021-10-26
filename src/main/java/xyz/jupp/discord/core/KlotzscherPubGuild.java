@@ -10,7 +10,7 @@ public class KlotzscherPubGuild {
     private final static Guild klotzscherPubGuild = getJda().getGuildById(628250514756468760L);
     private final static TextChannel mainTextChannel = getGuild().getTextChannelById(795763625017081856L);
 
-    public static Guild getGuild() {
+    public synchronized static Guild getGuild() {
         return klotzscherPubGuild;
     }
 
