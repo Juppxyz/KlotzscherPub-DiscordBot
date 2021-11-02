@@ -12,26 +12,21 @@ public class StreamingCommand implements Command {
     public void action(String[] args, GuildMessageReceivedEvent event) {
         Member member = event.getMember();
 
+        PrivateChannelBuilder privateChannelBuilder;
         if (!member.getVoiceState().inVoiceChannel()){
             String errorMsg = "Du musst in einem Channel sein um diesen Befehl ausführen zu können.";
-            PrivateChannelBuilder privateChannelBuilder = new PrivateChannelBuilder(errorMsg, PrivateChannelBuilder.PrivateChannelType.ERROR);
+            privateChannelBuilder = new PrivateChannelBuilder(errorMsg, PrivateChannelBuilder.PrivateChannelType.ERROR);
             privateChannelBuilder.sendPrivateMessage(member.getUser());
         }else if (member.getVoiceState().inVoiceChannel()
                 && (member.getVoiceState().getChannel().getMembers().size() < 2)){
             String errorMsg = "Du musst in einem Channel, mit mehr als 2 Personen sein um diesen Befehl ausführen zu können.";
-            PrivateChannelBuilder privateChannelBuilder = new PrivateChannelBuilder(errorMsg, PrivateChannelBuilder.PrivateChannelType.ERROR);
+            privateChannelBuilder = new PrivateChannelBuilder(errorMsg, PrivateChannelBuilder.PrivateChannelType.ERROR);
             privateChannelBuilder.sendPrivateMessage(member.getUser());
         }else {
             AudioManager audioManager = event.getGuild().getAudioManager();
             audioManager.openAudioConnection(member.getVoiceState().getChannel());
+            
         }
-
-    }
-
-
-
-    // disconnect the bot from the voice channel
-    public static void disconnectBot() {
 
     }
 
