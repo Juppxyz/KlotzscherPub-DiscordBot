@@ -26,7 +26,17 @@ public class MongoDB {
         if (instance == null){
             logger.log("connected to database.");
             instance = new MongoDB();
+        }else {
+
+            // added 05.11.2021
+            // Try to solve the problem that the connection is lost
+            // when the bot is not used for a longer time.
+
+
+
         }
+
+
         return instance;
     }
 

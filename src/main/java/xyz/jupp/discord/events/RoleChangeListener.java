@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRoleAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
+import xyz.jupp.discord.core.KlotzscherPub;
 import xyz.jupp.discord.core.KlotzscherPubGuild;
 import xyz.jupp.discord.database.RegularCollection;
 import xyz.jupp.discord.log.LoggerUtil;
@@ -25,7 +26,7 @@ public class RoleChangeListener extends ListenerAdapter {
 
         RegularCollection regularCollection = new RegularCollection(member);
 
-        if (!(regularCollection.getActiveTime() >= 5259600000L)) {
+        if (!(regularCollection.getActiveTime() >= KlotzscherPub.getNeededTimeForRegularRole())) {
 
             for (Role role : roles) {
                 if (role.getIdLong() == regularRoleID) {

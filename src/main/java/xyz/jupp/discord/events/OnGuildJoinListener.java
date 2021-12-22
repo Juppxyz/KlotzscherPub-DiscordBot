@@ -15,8 +15,6 @@ public class OnGuildJoinListener extends ListenerAdapter {
     public void onGuildMemberJoin(GuildMemberJoinEvent event) {
         event.getGuild().addRoleToMember(event.getMember(), KlotzscherPubGuild.getGuild().getRoleById(628504141030752256L)).complete();
         logger.log("update role for new member to Guest.", event.getMember().getId());
-
-
     }
 
 

@@ -13,6 +13,7 @@ import xyz.jupp.discord.commands.handler.CommandHandler;
 import xyz.jupp.discord.database.MongoDB;
 import xyz.jupp.discord.events.*;
 import xyz.jupp.discord.log.LoggerUtil;
+import xyz.jupp.discord.tasks.AntiAfkTask;
 import xyz.jupp.discord.utils.SecretKey;
 
 import javax.security.auth.login.LoginException;
@@ -22,6 +23,8 @@ public class KlotzscherPub {
 
     private static final String prefix = "[KlotzscherPub-Bot] ";
     private static final String chatPrefix = "%";
+
+    private static final long neededTimeForRegularRole = 3600000L;
 
     /** logger factory for the bot */
     private static LoggerUtil logger = new LoggerUtil(KlotzscherPub.class.getSimpleName());
@@ -44,7 +47,8 @@ public class KlotzscherPub {
                         .setAutoReconnect(true)
                         .addEventListeners(new OnReadyListener(), new CommandHandler(),
                                            new NicknameChangeListener(), new OnGuildJoinListener(),
-                                           new RegularRoleListener(), new RoleChangeListener())
+                                           new RegularRoleListener(), new RoleChangeListener(),
+                                           new AntiAfkListener())
                         .setActivity(Activity.playing("an der Bar")).build();
 
                 logger.log("register commands ..");
@@ -53,6 +57,9 @@ public class KlotzscherPub {
                 CommandHandler.addCommand(new ActiveCommand());
                 CommandHandler.addCommand(new HelpCommand());
                 CommandHandler.addCommand(new TopCommand());
+
+                logger.log("start antiafk listener ..");
+                new AntiAfkTask().startTask(60000);
 
                 logger.log("try to create connection with mongodb ..");
                 MongoDB.getInstance();
@@ -88,5 +95,8 @@ public class KlotzscherPub {
         return chatPrefix;
     }
 
-
+    // get the time which is need for the regular role
+    public static long getNeededTimeForRegularRole() {
+        return neededTimeForRegularRole;
+    }
 }

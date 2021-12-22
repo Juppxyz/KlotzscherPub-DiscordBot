@@ -1,5 +1,6 @@
 package xyz.jupp.discord.events;
 
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.VoiceChannel;
@@ -7,6 +8,7 @@ import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
+import xyz.jupp.discord.core.KlotzscherPub;
 import xyz.jupp.discord.core.KlotzscherPubGuild;
 import xyz.jupp.discord.database.RegularCollection;
 import xyz.jupp.discord.log.LoggerUtil;
@@ -56,19 +58,14 @@ public class RegularRoleListener extends ListenerAdapter {
 
                 long activeTime =  activeTimeFromDatabase + (actuallyTime - dateFromMember);
 
-                if (activeTimeFromDatabase < 5259600000L) {
-
+                if (activeTimeFromDatabase < KlotzscherPub.getNeededTimeForRegularRole()) {
                     regularCollection.updateDatetime(activeTime);
-
                 }else {
 
-                    if (updateRole(member)){
+                    if (updateRole(member, event.getGuild())){
                         EmbedMessageBuilder embedMessageBuilder =
-                                new EmbedMessageBuilder(member.getAsMention() + " ist nun ein Stammkunde. Glückwunsch!"
-                                        , EmbedMessageBuilder.EmbedMessageTypes.BROADCAST);
-
+                                new EmbedMessageBuilder(member.getAsMention() + " ist nun ein Stammkunde. Glückwunsch!", EmbedMessageBuilder.EmbedMessageTypes.BROADCAST);
                         KlotzscherPubGuild.getMainTextChannel().sendMessageEmbeds(embedMessageBuilder.getMessage(null).build()).queue();
-
                     }
 
                 }
@@ -88,16 +85,16 @@ public class RegularRoleListener extends ListenerAdapter {
 
 
     /* Updates the group to the regular customer (only fot he G's) */
-    private boolean updateRole(@NotNull Member member) {
-        for (Role s : member.getRoles()){
-            if (s.getName().equals("Stammkunde")){
-                return false;
-            }
+    private boolean updateRole(@NotNull Member member, @NotNull Guild guild) {
+        Role regularRole = guild.getRoleById(628302155782029332L);
+        if (!member.getRoles().contains(guild.getRoleById(628302155782029332L))){
+            guild.addRoleToMember(member, regularRole).queue();
+            System.out.println("updated role to regular role for " + member.getId());
+            log.log("updated role to Stammkunde. ", member.getId());
+            return true;
         }
 
-        KlotzscherPubGuild.getGuild().addRoleToMember(member.getId(), KlotzscherPubGuild.getGuild().getRoleById(628302155782029332L)).queue();
-        log.log("updated role for Stammkunde. ", member.getId());
-        return true;
+        return false;
     }
 
 }
