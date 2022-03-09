@@ -20,10 +20,8 @@ public class ActiveCommand implements Command {
         logger.log("execute active command", member.getId());
         RegularCollection regularCollection = new RegularCollection(member);
 
-
         long activeTime = TimeUnit.MILLISECONDS.toHours(regularCollection.getActiveTime());
         String timeText = activeTime == 1 ? "1 Stunde" : activeTime + " Stunden";
-
 
         PrivateChannelBuilder privateChannelBuilder = new PrivateChannelBuilder("⏱️ Deine aktive Zeit beträgt: " + timeText, PrivateChannelBuilder.PrivateChannelType.INFO);
         privateChannelBuilder.sendPrivateMessage(member.getUser());

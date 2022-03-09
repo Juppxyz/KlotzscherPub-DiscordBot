@@ -31,7 +31,9 @@ public class CommandHandler extends ListenerAdapter {
             for (Command command : getCommands()) {
                 if (command.getCommand().startsWith(args[0])) {
                     command.action(args, event);
-                    event.getMessage().delete().queue();
+                    if (!event.getAuthor().isBot()){
+                        event.getMessage().delete().queue();
+                    }
                 }
             }
 

@@ -32,29 +32,29 @@ public class RegularCollection {
     public boolean existMemberInDatabase(){
         Bson searchFilter = eq("member_id", member.getId());
         FindIterable<Document> iterable = getMongoCollection().find(searchFilter);
-        return iterable.cursor().next() != null;
+        return iterable.first() != null;
     }
 
 
     public void updateDatetime(long activeTime) {
-        if (existMemberInDatabase()) {
-            Bson searchFilter = eq("member_id", member.getId());
-            Bson updatedDocument = new Document("active_time", activeTime);
+        Bson searchFilter = eq("member_id", member.getId());
+        Bson updatedDocument = new Document("active_time", activeTime);
 
-            getMongoCollection().updateOne(searchFilter, new Document("$set", updatedDocument));
-            log.log("updated active_time", member.getId());
-        }
-
+        getMongoCollection().updateOne(searchFilter, new Document("$set", updatedDocument));
+        System.out.println("update in database " + member.getEffectiveName());
+        log.log("updated active_time", member.getId());
     }
 
     // check no if user exist, because its only usage in RegularRoleListener
     public long getActiveTime() {
         Bson searchFiler = eq("member_id", member.getId());
         FindIterable<Document> iterable = getMongoCollection().find(searchFiler);
-        Document document = iterable.cursor().next();
-        for (Map.Entry<String, Object> entry : document.entrySet()){
-            if (entry.getKey().equals("active_time")){
-                return Long.parseLong(String.valueOf(entry.getValue()));
+        Document document = iterable.first();
+        if (document != null){
+            for (Map.Entry<String, Object> entry : document.entrySet()){
+                if (entry.getKey().equals("active_time")){
+                    return Long.parseLong(String.valueOf(entry.getValue()));
+                }
             }
         }
 

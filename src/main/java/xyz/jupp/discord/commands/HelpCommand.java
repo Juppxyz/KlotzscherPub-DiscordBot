@@ -27,6 +27,7 @@ public class HelpCommand implements Command {
         stringBuilder.append("⚙️ Hier findest du alles was der KlotzscherPub kann\n\n\n");
         stringBuilder.append(" » ").append(KlotzscherPub.getChatPrefix()).append("active - Zeigt wie lange du schon aktiv auf dem Discord bist.\n\n");
         stringBuilder.append(" » ").append(KlotzscherPub.getChatPrefix()).append("top - Zeigt den User mit der größten aktiven Zeit an.\n\n");
+        stringBuilder.append(" » ").append(KlotzscherPub.getChatPrefix()).append("gibsmir - Gibt dir die NSFW Rolle.\n\n");
         stringBuilder.append(" ❓ Fragen einfach direkt in " + KlotzscherPubGuild.getGuild().getTextChannelById(795763625017081856L).getAsMention());
         return stringBuilder.toString();
     }

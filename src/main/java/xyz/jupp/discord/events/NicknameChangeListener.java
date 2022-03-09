@@ -49,9 +49,11 @@ public class NicknameChangeListener extends ListenerAdapter {
 
 
     private String cleanNickname(@NotNull String rawNickname){
+        String cleanNickname = rawNickname.replaceAll("1", "i").replaceAll("3", "e");
+
+        /*
         StringBuilder nickname = new StringBuilder();
         char[] nicknameArray = rawNickname.toCharArray();
-
 
         for (char c : nicknameArray){
             if (Character.isLetter(c)){
@@ -65,8 +67,8 @@ public class NicknameChangeListener extends ListenerAdapter {
                     nickname.append(charString.replace("3", "E"));
                 }
             }
-        }
+        }*/
 
-        return nickname.toString().toLowerCase(Locale.ROOT);
+        return cleanNickname.toLowerCase(Locale.ROOT);
     }
 }

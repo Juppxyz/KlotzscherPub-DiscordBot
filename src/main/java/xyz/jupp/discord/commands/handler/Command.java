@@ -17,7 +17,6 @@ public interface Command {
                 return true;
             }
         }
-
         return false;
     }
 

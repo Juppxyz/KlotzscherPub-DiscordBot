@@ -6,14 +6,11 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
-import xyz.jupp.discord.commands.ActiveCommand;
-import xyz.jupp.discord.commands.HelpCommand;
-import xyz.jupp.discord.commands.TopCommand;
+import xyz.jupp.discord.commands.*;
 import xyz.jupp.discord.commands.handler.CommandHandler;
 import xyz.jupp.discord.database.MongoDB;
 import xyz.jupp.discord.events.*;
 import xyz.jupp.discord.log.LoggerUtil;
-import xyz.jupp.discord.tasks.AntiAfkTask;
 import xyz.jupp.discord.utils.SecretKey;
 
 import javax.security.auth.login.LoginException;
@@ -23,8 +20,7 @@ public class KlotzscherPub {
 
     private static final String prefix = "[KlotzscherPub-Bot] ";
     private static final String chatPrefix = "%";
-
-    private static final long neededTimeForRegularRole = 3600000L;
+    private static final long neededTimeForRegularRole = 1080000000L;
 
     /** logger factory for the bot */
     private static LoggerUtil logger = new LoggerUtil(KlotzscherPub.class.getSimpleName());
@@ -32,6 +28,7 @@ public class KlotzscherPub {
 
     private final static EnumSet<GatewayIntent> gatewayIntents = EnumSet.of(GatewayIntent.DIRECT_MESSAGES, GatewayIntent.GUILD_EMOJIS,
             GatewayIntent.GUILD_VOICE_STATES, GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_PRESENCES);
+
 
     /** JDA Builder for the bot */
     private static JDA jda;
@@ -47,19 +44,19 @@ public class KlotzscherPub {
                         .setAutoReconnect(true)
                         .addEventListeners(new OnReadyListener(), new CommandHandler(),
                                            new NicknameChangeListener(), new OnGuildJoinListener(),
-                                           new RegularRoleListener(), new RoleChangeListener(),
-                                           new AntiAfkListener())
+                                           new RegularRoleListener(), new RoleChangeListener(), new NSFWBotBlockListener(),
+                                           new MembersCountChannelListener())
                         .setActivity(Activity.playing("an der Bar")).build();
+
 
                 logger.log("register commands ..");
 
                 //CommandHandler.addCommand(new DebugCommand());
+                CommandHandler.addCommand(new SaveCurrentTimesCommand());
                 CommandHandler.addCommand(new ActiveCommand());
                 CommandHandler.addCommand(new HelpCommand());
+                CommandHandler.addCommand(new NSFWCommand());
                 CommandHandler.addCommand(new TopCommand());
-
-                logger.log("start antiafk listener ..");
-                new AntiAfkTask().startTask(60000);
 
                 logger.log("try to create connection with mongodb ..");
                 MongoDB.getInstance();

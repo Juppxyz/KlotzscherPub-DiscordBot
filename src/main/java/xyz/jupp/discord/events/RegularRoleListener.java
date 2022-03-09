@@ -23,8 +23,10 @@ public class RegularRoleListener extends ListenerAdapter {
     // logger
     private final static LoggerUtil log = new LoggerUtil(RegularRoleListener.class.getSimpleName());
 
+
     // is a list for save temporally the member time in channel
     private static final Map<String, Date> memberChannelTime = new HashMap<>();
+
 
     @Override
     public void onGuildVoiceJoin(GuildVoiceJoinEvent event) {
@@ -47,40 +49,37 @@ public class RegularRoleListener extends ListenerAdapter {
     @Override
     public void onGuildVoiceLeave(GuildVoiceLeaveEvent event) {
         Member member = event.getMember();
-
         if (memberChannelTime.containsKey(member.getId())) {
             RegularCollection regularCollection = new RegularCollection(event.getMember());
+
             if (regularCollection.existMemberInDatabase()){
                 long dateFromMember = memberChannelTime.get(member.getId()).getTime();
                 long actuallyTime = new Date().getTime();
 
                 long activeTimeFromDatabase = regularCollection.getActiveTime();
-
                 long activeTime =  activeTimeFromDatabase + (actuallyTime - dateFromMember);
 
-                if (activeTimeFromDatabase < KlotzscherPub.getNeededTimeForRegularRole()) {
-                    regularCollection.updateDatetime(activeTime);
-                }else {
+                regularCollection.updateDatetime(activeTime);
 
+                // check if the user has the regular role time reached
+                if(activeTimeFromDatabase >= KlotzscherPub.getNeededTimeForRegularRole()) {
                     if (updateRole(member, event.getGuild())){
-                        EmbedMessageBuilder embedMessageBuilder =
-                                new EmbedMessageBuilder(member.getAsMention() + " ist nun ein Stammkunde. Glückwunsch!", EmbedMessageBuilder.EmbedMessageTypes.BROADCAST);
+                        EmbedMessageBuilder embedMessageBuilder = new EmbedMessageBuilder(member.getAsMention() + " ist nun ein Stammkunde. Glückwunsch!", EmbedMessageBuilder.EmbedMessageTypes.BROADCAST);
                         KlotzscherPubGuild.getMainTextChannel().sendMessageEmbeds(embedMessageBuilder.getMessage(null).build()).queue();
                     }
-
+                    return;
                 }
 
             }else {
+                System.out.println("create new member " + member.getEffectiveName());
                 regularCollection.createNewMemberInDatabase();
             }
 
-
             memberChannelTime.remove(member.getId());
+
         }
 
     }
-
-
 
 
 
@@ -89,12 +88,16 @@ public class RegularRoleListener extends ListenerAdapter {
         Role regularRole = guild.getRoleById(628302155782029332L);
         if (!member.getRoles().contains(guild.getRoleById(628302155782029332L))){
             guild.addRoleToMember(member, regularRole).queue();
-            System.out.println("updated role to regular role for " + member.getId());
             log.log("updated role to Stammkunde. ", member.getId());
             return true;
         }
-
         return false;
     }
+
+
+    public static Map<String, Date> getMemberChannelTime() {
+        return memberChannelTime;
+    }
+
 
 }

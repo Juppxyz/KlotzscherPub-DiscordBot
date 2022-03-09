@@ -27,6 +27,7 @@ public class LoggerUtil {
         logger.info(output);
     }
 
+
     public void warn(@NotNull String content){
         logger.warn(content);
     }
@@ -66,4 +67,6 @@ public class LoggerUtil {
     private void insertLogToMongoDB(@NotNull Document document){
         new Thread(() -> MongoDB.getInstance().insertLog(document)).start();
     }
+
+
 }
