@@ -1,7 +1,7 @@
 package xyz.jupp.discord.commands;
 
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import xyz.jupp.discord.commands.handler.Command;
 import xyz.jupp.discord.database.RegularCollection;
 import xyz.jupp.discord.log.LoggerUtil;
@@ -16,7 +16,7 @@ public class TopCommand implements Command {
 
 
     @Override
-    public void action(String[] args, GuildMessageReceivedEvent event) {
+    public void action(String[] args, MessageReceivedEvent event) {
         Member member = event.getMember();
         logger.log("execute top command", member.getId());
         RegularCollection regularCollection = new RegularCollection(member);

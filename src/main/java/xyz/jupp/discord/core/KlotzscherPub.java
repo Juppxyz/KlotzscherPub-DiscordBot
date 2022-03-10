@@ -43,7 +43,7 @@ public class KlotzscherPub {
                         .enableIntents(gatewayIntents)
                         .setAutoReconnect(true)
                         .addEventListeners(new OnReadyListener(), new CommandHandler(),
-                                           new NicknameChangeListener(), new OnGuildJoinListener(),
+                                           new NicknameListener(), new OnGuildJoinListener(),
                                            new RegularRoleListener(), new RoleChangeListener(), new NSFWBotBlockListener(),
                                            new MembersCountChannelListener())
                         .setActivity(Activity.playing("an der Bar")).build();

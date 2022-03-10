@@ -1,7 +1,9 @@
+/*
 package xyz.jupp.discord.commands;
 
+
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.managers.AudioManager;
 import xyz.jupp.discord.commands.handler.Command;
 import xyz.jupp.discord.utils.PrivateChannelBuilder;
@@ -9,7 +11,7 @@ import xyz.jupp.discord.utils.PrivateChannelBuilder;
 public class StreamingCommand implements Command {
 
     @Override
-    public void action(String[] args, GuildMessageReceivedEvent event) {
+    public void action(String[] args, MessageReceivedEvent event) {
         Member member = event.getMember();
 
         PrivateChannelBuilder privateChannelBuilder;
@@ -36,3 +38,4 @@ public class StreamingCommand implements Command {
         return null;
     }
 }
+**/

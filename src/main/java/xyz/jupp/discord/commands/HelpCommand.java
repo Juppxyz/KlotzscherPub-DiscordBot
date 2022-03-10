@@ -1,7 +1,7 @@
 package xyz.jupp.discord.commands;
 
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import xyz.jupp.discord.commands.handler.Command;
 import xyz.jupp.discord.core.KlotzscherPub;
 import xyz.jupp.discord.core.KlotzscherPubGuild;
@@ -14,7 +14,7 @@ public class HelpCommand implements Command {
     private final static LoggerUtil log = new LoggerUtil(HelpCommand.class.getSimpleName());
 
     @Override
-    public void action(String[] args, GuildMessageReceivedEvent event) {
+    public void action(String[] args, MessageReceivedEvent event) {
         Member member = event.getMember();
         log.log("execute help command", member.getId());
         PrivateChannelBuilder privateChannelBuilder = new PrivateChannelBuilder(getHelpMessage(), PrivateChannelBuilder.PrivateChannelType.INFO);

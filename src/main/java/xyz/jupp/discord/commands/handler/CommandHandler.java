@@ -1,7 +1,7 @@
 package xyz.jupp.discord.commands.handler;
 
 
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -20,7 +20,7 @@ public class CommandHandler extends ListenerAdapter {
     private static final Logger log = LoggerFactory.getLogger(CommandHandler.class);
 
     @Override
-    public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent event) {
+    public void onMessageReceived(@NotNull MessageReceivedEvent event) {
         String msg = event.getMessage().getContentRaw();
 
         if (msg.startsWith(KlotzscherPub.getChatPrefix())) {

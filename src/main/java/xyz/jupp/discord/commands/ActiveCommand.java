@@ -1,7 +1,7 @@
 package xyz.jupp.discord.commands;
 
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import xyz.jupp.discord.commands.handler.Command;
 import xyz.jupp.discord.database.RegularCollection;
 import xyz.jupp.discord.log.LoggerUtil;
@@ -15,7 +15,7 @@ public class ActiveCommand implements Command {
     private final static LoggerUtil logger = new LoggerUtil(ActiveCommand.class.getSimpleName());
 
     @Override
-    public void action(String[] args, GuildMessageReceivedEvent event) {
+    public void action(String[] args, MessageReceivedEvent event) {
         Member member = event.getMember();
         logger.log("execute active command", member.getId());
         RegularCollection regularCollection = new RegularCollection(member);
@@ -27,7 +27,6 @@ public class ActiveCommand implements Command {
         privateChannelBuilder.sendPrivateMessage(member.getUser());
 
     }
-
 
 
     @Override

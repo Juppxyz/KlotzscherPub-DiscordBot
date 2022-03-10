@@ -2,11 +2,11 @@ package xyz.jupp.discord.commands.handler;
 
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public interface Command {
 
-    default boolean permissionCheck(GuildMessageReceivedEvent event){
+    default boolean permissionCheck(MessageReceivedEvent event){
         Member member = event.getMember();
 
         long bossId = 628250586806091816L;
@@ -21,7 +21,7 @@ public interface Command {
     }
 
 
-    void action(String[] args, GuildMessageReceivedEvent event);
+    void action(String[] args, MessageReceivedEvent event);
     String getCommand();
 
 }
