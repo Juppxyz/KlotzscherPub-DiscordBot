@@ -41,7 +41,6 @@ public class RegularCollection {
         Bson updatedDocument = new Document("active_time", activeTime);
 
         getMongoCollection().updateOne(searchFilter, new Document("$set", updatedDocument));
-        System.out.println("update in database " + member.getEffectiveName());
         log.log("updated active_time", member.getId());
     }
 
@@ -77,9 +76,9 @@ public class RegularCollection {
             document.append("member_name",member.getEffectiveName());
             document.append("active_time", 0L);
             getMongoCollection().insertOne(document);
-            log.log("create new member in collection.", member.getEffectiveName());
+            log.log("create new member in collection.", member.getId());
         }else {
-            log.warn("tried to create an existing member.", "v0.0.1");
+            log.warn("tried to create an existing member.", member.getId());
         }
 
     }
