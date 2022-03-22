@@ -37,8 +37,6 @@ public class RegularRoleListener extends ListenerAdapter {
             if (!memberChannelTime.containsKey(member.getId())){
                 memberChannelTime.put(member.getId(), new Date());
             }
-        }else {
-            log.log("moved into the afk room.", member.getId());
         }
 
     }

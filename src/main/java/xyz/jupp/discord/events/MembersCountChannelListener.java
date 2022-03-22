@@ -22,10 +22,9 @@ public class MembersCountChannelListener extends ListenerAdapter {
     }
 
     public static void updateMemberCountChannel() {
-        new Thread(() -> {
-            String placeholder = "» Mitglieder: " + KlotzscherPubGuild.getGuild().getMemberCache().size();
-            KlotzscherPubGuild.getMemberCountChannel().getManager().setName(placeholder).queue();
-        }).start();
+        String placeholder = "» Mitglieder: " + KlotzscherPubGuild.getGuild().getMemberCache().size();
+
+        KlotzscherPubGuild.getMemberCountChannel().getManager().setName(placeholder).queue();
     }
 
 }

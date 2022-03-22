@@ -11,6 +11,7 @@ import xyz.jupp.discord.commands.handler.CommandHandler;
 import xyz.jupp.discord.database.MongoDB;
 import xyz.jupp.discord.events.*;
 import xyz.jupp.discord.log.LoggerUtil;
+import xyz.jupp.discord.tasks.AfkHandler;
 import xyz.jupp.discord.utils.SecretKey;
 
 import javax.security.auth.login.LoginException;
@@ -50,7 +51,6 @@ public class KlotzscherPub {
 
 
                 logger.log("register commands ..");
-
                 //CommandHandler.addCommand(new DebugCommand());
                 CommandHandler.addCommand(new SaveCurrentTimesCommand());
                 CommandHandler.addCommand(new ActiveCommand());
@@ -73,6 +73,8 @@ public class KlotzscherPub {
     public static void main(String[] args) {
         logger.log( "start the klotzscherpub bot .. ");
         getJda();
+        AfkHandler.getHandler().startHandler();
+
     }
     
 

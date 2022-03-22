@@ -16,8 +16,8 @@ public class BadNameChecker {
     public static void checkName(@NotNull String nickName, @NotNull Member member, boolean kick) {
         String effectiveName = member.getEffectiveName();
 
+        String cleanNickname = cleanNickname(nickName);
         for (String badWord : SecretKey.listOfBadwords) {
-            String cleanNickname = cleanNickname(nickName);
             if (cleanNickname.contains(badWord)) {
                 KlotzscherPubGuild.getGuild().modifyNickname(member, effectiveName).complete();
 

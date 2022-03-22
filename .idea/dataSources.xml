@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="MongoDB - admin@49.12.231.161" uuid="143e37f3-cc6e-46e0-afa2-95ff0fb4db19">
+      <driver-ref>mongo</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.dbschema.MongoJdbcDriver</jdbc-driver>
+      <jdbc-url>mongodb://49.12.231.161:27017/admin?authSource=admin&amp;readPreference=primary&amp;appname=MongoDB%20Compass&amp;directConnection=true&amp;ssl=false</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+  </component>
+</project>

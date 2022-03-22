@@ -13,7 +13,7 @@ public class NicknameListener extends ListenerAdapter {
     public void onGuildMemberUpdateNickname(@NotNull GuildMemberUpdateNicknameEvent event) {
         Member member = event.getMember();
         String newName = event.getNewNickname();
-        assert newName != null;
+        if (newName == null){return;}
         BadNameChecker.checkName(newName, member, false);
     }
 
@@ -23,5 +23,7 @@ public class NicknameListener extends ListenerAdapter {
         String effectiveName = member.getEffectiveName();
         BadNameChecker.checkName(effectiveName, member, true);
     }
+
+
 
 }
