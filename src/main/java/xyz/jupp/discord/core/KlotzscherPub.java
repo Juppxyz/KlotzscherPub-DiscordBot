@@ -45,8 +45,8 @@ public class KlotzscherPub {
                         .setAutoReconnect(true)
                         .addEventListeners(new OnReadyListener(), new CommandHandler(),
                                            new NicknameListener(), new OnGuildJoinListener(),
-                                           new RegularRoleListener(), new RoleChangeListener(), new NSFWBotBlockListener(),
-                                           new MembersCountChannelListener())
+                                           new RegularRoleListener(), new RoleChangeListener(),
+                                           new NSFWBotBlockListener(), new MembersCountChannelListener())
                         .setActivity(Activity.playing("an der Bar")).build();
 
 
