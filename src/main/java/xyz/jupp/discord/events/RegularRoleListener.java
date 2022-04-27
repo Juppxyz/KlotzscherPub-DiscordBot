@@ -65,7 +65,6 @@ public class RegularRoleListener extends ListenerAdapter {
                         EmbedMessageBuilder embedMessageBuilder = new EmbedMessageBuilder(member.getAsMention() + " ist nun ein Stammkunde. Glückwunsch!", EmbedMessageBuilder.EmbedMessageTypes.BROADCAST);
                         KlotzscherPubGuild.getMainTextChannel().sendMessageEmbeds(embedMessageBuilder.getMessage(null).build()).queue();
                     }
-                    return;
                 }
 
             }else {

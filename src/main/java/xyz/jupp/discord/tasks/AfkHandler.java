@@ -51,7 +51,8 @@ public class AfkHandler {
                 boolean isFullSelfMuted = voiceState.isSelfMuted() && voiceState.isSelfDeafened();
                 boolean memberInMap = afkMemberCheckMap.containsKey(member.getIdLong());
 
-                if ((memberInMap && !member.getVoiceState().inAudioChannel())
+                // changed on 27.04.2002 because ouf outdated or some similar reason (idk)
+                if ((memberInMap && !member.getVoiceState().inVoiceChannel())
                         || (memberInMap && voiceState.getChannel().getIdLong() == KlotzscherPubGuild.getGuild().getAfkChannel().getIdLong())) {
                     afkMemberCheckMap.remove(member.getIdLong());
                     continue;
@@ -64,13 +65,13 @@ public class AfkHandler {
                 } else if (isFullSelfMuted && memberInMap) {
                     int value = afkMemberCheckMap.get(member.getIdLong()) + 1;
                     // if higher than 10 move the player
-                    if (value >= 15) {
+                    if (value >= 30) {
 
                        /* PrivateChannelBuilder privateChannelBuilder =
                                 new PrivateChannelBuilder(
                                         "Jeder brauch mal eine Auszeit.\n Für ein wenig Erholung wurdest du in den Pausenraum gebracht. \n\nBis nachher!",
                                         PrivateChannelBuilder.PrivateChannelType.INFO);
-                        privateChannelBuilder.sendPrivateMessage(member.getUser());*/
+                        privateChannelBuilder.sendPrivateMessage(member.getUser()); */
 
                         KlotzscherPubGuild.getGuild().moveVoiceMember(member, KlotzscherPubGuild.getGuild().getAfkChannel()).queue();
                         afkMemberCheckMap.remove(member.getIdLong());
