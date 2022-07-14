@@ -24,7 +24,7 @@ public class MongoDB {
     private static MongoDB instance = null;
     public synchronized static MongoDB getInstance() {
         if (instance == null){
-            logger.log("connected to database.");
+            logger.log("connected to database");
             instance = new MongoDB();
         }
 

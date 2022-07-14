@@ -39,6 +39,8 @@ public class RegularRoleListener extends ListenerAdapter {
             }
         }
 
+
+
     }
 
 
@@ -49,8 +51,8 @@ public class RegularRoleListener extends ListenerAdapter {
         Member member = event.getMember();
         if (memberChannelTime.containsKey(member.getId())) {
             RegularCollection regularCollection = new RegularCollection(event.getMember());
-
             if (regularCollection.existMemberInDatabase()){
+
                 long dateFromMember = memberChannelTime.get(member.getId()).getTime();
                 long actuallyTime = new Date().getTime();
 
@@ -68,7 +70,6 @@ public class RegularRoleListener extends ListenerAdapter {
                 }
 
             }else {
-                System.out.println("create new member " + member.getEffectiveName());
                 regularCollection.createNewMemberInDatabase();
             }
 

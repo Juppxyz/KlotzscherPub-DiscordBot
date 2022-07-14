@@ -39,10 +39,10 @@ public class RegularCollection {
     public void updateDatetime(long activeTime) {
         Bson searchFilter = eq("member_id", member.getId());
         Bson updatedDocument = new Document("active_time", activeTime);
-
         getMongoCollection().updateOne(searchFilter, new Document("$set", updatedDocument));
-        log.log("updated active_time", member.getId());
+        log.log("updated active_time (" + activeTime + ")", member.getId());
     }
+
 
     // check no if user exist, because its only usage in RegularRoleListener
     public long getActiveTime() {
@@ -76,9 +76,9 @@ public class RegularCollection {
             document.append("member_name",member.getEffectiveName());
             document.append("active_time", 0L);
             getMongoCollection().insertOne(document);
-            log.log("create new member in collection.", member.getId());
+            log.log("create new member in collection", member.getId());
         }else {
-            log.warn("tried to create an existing member.", member.getId());
+            log.warn("tried to create an existing member", member.getId());
         }
 
     }
