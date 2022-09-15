@@ -89,6 +89,19 @@ public class RegularRoleListener extends ListenerAdapter {
         return false;
     }
 
+    // this method loads all currently active members in the memberChannelTime map
+    public static void loadAllMembers() {
+        log.log("load all active members..");
+        for (Member member : KlotzscherPubGuild.getGuild().getMembers()){
+            if (member.getVoiceState() == null || member.getUser().isBot()) continue;
+            if (member.getVoiceState().inVoiceChannel()){
+                log.log(String.format("load member: %s (%s)", member.getEffectiveName(),member.getId()));
+                memberChannelTime.put(member.getId(), new Date());
+            }
+        }
+        log.log("all members were loaded ");
+    }
+
 
     public static Map<String, Date> getMemberChannelTime() {
         return memberChannelTime;

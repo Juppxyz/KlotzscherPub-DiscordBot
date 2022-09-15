@@ -22,8 +22,9 @@ public class OnReadyListener extends ListenerAdapter {
             return;
         }
 
-        MembersCountChannelListener.updateMemberCountChannel();
         logger.log("the bot is only on the KlotzscherPub guild.");
+        MembersCountChannelListener.updateMemberCountChannel();
+        RegularRoleListener.loadAllMembers();
 
     }
 

@@ -21,10 +21,9 @@ public class LoggerUtil {
     }
 
 
-    // system
+    // writes the log in the console
     public void log(@NotNull String content){
-        String output = content + " []";
-        logger.info(output);
+        logger.info(content);
     }
 
 
@@ -41,20 +40,20 @@ public class LoggerUtil {
     }
 
 
-    // app
+
     public void log(@NotNull String content, @NotNull String info){
-        Document document = createDocumentFromOutput(content, info, "INFO");
+        Document document = createMongoDocument(content, info, "INFO");
         insertLogToMongoDB(document);
     }
 
 
     public void warn(@NotNull String content, @NotNull String info){
-        Document document = createDocumentFromOutput(content, info, "WARN");
+        Document document = createMongoDocument(content, info, "WARN");
         insertLogToMongoDB(document);
     }
 
 
-    private Document createDocumentFromOutput(@NotNull String content, @NotNull String info, @NotNull String type){
+    private Document createMongoDocument(@NotNull String content, @NotNull String info, @NotNull String type){
         Document document = new Document();
         document.append("datetime", TimeUtil.getDateTime());
         document.append("content", content);
