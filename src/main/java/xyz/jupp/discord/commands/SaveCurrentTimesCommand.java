@@ -29,7 +29,7 @@ public class SaveCurrentTimesCommand implements Command {
 
             long activeTimeFromDatabase = regularCollection.getActiveTime();
             long activeTime =  activeTimeFromDatabase + (actuallyTime - RegularRoleListener.getMemberChannelTime().get(memberIDInMap).getTime());
-            regularCollection.updateDatetime(activeTime);
+            regularCollection.updateDatetime(activeTime, tmpMember.getEffectiveName());
         }
 
 

@@ -27,8 +27,6 @@ public class MongoDB {
             logger.log("connected to database");
             instance = new MongoDB();
         }
-
-
         return instance;
     }
 

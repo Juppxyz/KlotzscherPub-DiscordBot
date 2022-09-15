@@ -24,7 +24,6 @@ public class RegularCollection {
 
     // constructor
     public RegularCollection(@NotNull Member member){
-        MongoDB.getInstance();
         this.member = member;
     }
 
@@ -36,9 +35,9 @@ public class RegularCollection {
     }
 
 
-    public void updateDatetime(long activeTime) {
+    public void updateDatetime(long activeTime, String effectiveName) {
         Bson searchFilter = eq("member_id", member.getId());
-        Bson updatedDocument = new Document("active_time", activeTime);
+        Bson updatedDocument = new Document("active_time", activeTime).append("member_name", effectiveName);
         getMongoCollection().updateOne(searchFilter, new Document("$set", updatedDocument));
         log.log("updated active_time (" + activeTime + ")", member.getId());
     }
@@ -73,7 +72,7 @@ public class RegularCollection {
     public void createNewMemberInDatabase() {
         if (!existMemberInDatabase()){
             Document document = new Document("member_id", member.getId());
-            document.append("member_name",member.getEffectiveName());
+            document.append("member_name", member.getEffectiveName());
             document.append("active_time", 0L);
             getMongoCollection().insertOne(document);
             log.log("create new member in collection", member.getId());

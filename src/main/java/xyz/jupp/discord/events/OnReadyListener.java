@@ -14,7 +14,6 @@ public class OnReadyListener extends ListenerAdapter {
 
     private final static LoggerUtil logger = new LoggerUtil(OnReadyListener.class.getSimpleName());
 
-
     @Override
     public void onReady(@NotNull ReadyEvent event) {
         if (!checkGuilds()){
@@ -28,7 +27,6 @@ public class OnReadyListener extends ListenerAdapter {
 
     }
 
-
     /** This method ensures that the bot is only on the KlotzscherPub */
     private boolean checkGuilds() {
         List<Guild> listOfGuilds = KlotzscherPub.getJda().getGuilds();
@@ -38,4 +36,5 @@ public class OnReadyListener extends ListenerAdapter {
         }
         return false;
     }
+
 }

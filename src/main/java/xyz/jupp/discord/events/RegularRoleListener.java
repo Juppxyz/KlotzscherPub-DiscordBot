@@ -39,10 +39,7 @@ public class RegularRoleListener extends ListenerAdapter {
             }
         }
 
-
-
     }
-
 
 
 
@@ -59,7 +56,7 @@ public class RegularRoleListener extends ListenerAdapter {
                 long activeTimeFromDatabase = regularCollection.getActiveTime();
                 long activeTime =  activeTimeFromDatabase + (actuallyTime - dateFromMember);
 
-                regularCollection.updateDatetime(activeTime);
+                regularCollection.updateDatetime(activeTime, member.getEffectiveName());
 
                 // check if the user has the regular role time reached
                 if(activeTimeFromDatabase >= KlotzscherPub.getNeededTimeForRegularRole()) {

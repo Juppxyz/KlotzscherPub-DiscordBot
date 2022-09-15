@@ -26,7 +26,6 @@ public class KlotzscherPub {
     /** logger factory for the bot */
     private static LoggerUtil logger = new LoggerUtil(KlotzscherPub.class.getSimpleName());
 
-
     private final static EnumSet<GatewayIntent> gatewayIntents = EnumSet.of(GatewayIntent.DIRECT_MESSAGES, GatewayIntent.GUILD_EMOJIS,
             GatewayIntent.GUILD_VOICE_STATES, GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_PRESENCES);
 
@@ -74,7 +73,6 @@ public class KlotzscherPub {
         logger.log( "start the klotzscherpub bot .. ");
         getJda();
         AfkHandler.getHandler().startHandler();
-
     }
     
 

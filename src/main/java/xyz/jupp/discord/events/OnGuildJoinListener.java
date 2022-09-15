@@ -10,7 +10,6 @@ public class OnGuildJoinListener extends ListenerAdapter {
     // logger
     private final static LoggerUtil logger = new LoggerUtil(OnGuildJoinListener.class.getSimpleName());
 
-
     @Override
     public void onGuildMemberJoin(GuildMemberJoinEvent event) {
         event.getGuild().addRoleToMember(event.getMember(), KlotzscherPubGuild.getGuild().getRoleById(628504141030752256L)).complete();
