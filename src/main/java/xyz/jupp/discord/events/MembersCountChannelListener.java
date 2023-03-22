@@ -26,11 +26,11 @@ public class MembersCountChannelListener extends ListenerAdapter {
     }
 
     public static void updateMemberCountChannel() {
-        long amountOfMembers = KlotzscherPubGuild.getGuild().getMemberCount();
+        int amountOfMembers = KlotzscherPubGuild.getGuild().getMembers().size();
         MemberCountCollection memberCountCollection = new MemberCountCollection();
         String placeholder = "» Mitglieder: " + amountOfMembers;
         logger.log("updated name for members-count channel", String.valueOf(amountOfMembers));
-        memberCountCollection.saveGuildMemberCount();
+        memberCountCollection.saveGuildMemberCount(amountOfMembers);
         KlotzscherPubGuild.getMemberCountChannel().getManager().setName(placeholder).queue();
     }
 

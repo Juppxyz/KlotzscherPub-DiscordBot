@@ -27,7 +27,6 @@ public class CommandHandler extends ListenerAdapter {
             msg = msg.replace(KlotzscherPub.getChatPrefix(), "");
             String[] args = msg.split(" ");
 
-
             for (Command command : getCommands()) {
                 if (command.getCommand().startsWith(args[0])) {
                     command.action(args, event);
@@ -36,7 +35,6 @@ public class CommandHandler extends ListenerAdapter {
                     }
                 }
             }
-
 
         }
 

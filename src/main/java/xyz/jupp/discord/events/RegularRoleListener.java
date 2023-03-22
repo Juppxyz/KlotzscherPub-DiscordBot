@@ -32,7 +32,6 @@ public class RegularRoleListener extends ListenerAdapter {
     public void onGuildVoiceJoin(GuildVoiceJoinEvent event) {
         Member member = event.getMember();
         VoiceChannel channel = KlotzscherPubGuild.getGuild().getVoiceChannelById(628525193236840458L);
-
         if (!(event.getMember().getUser().isBot()) && !(event.getChannelJoined().getIdLong() == channel.getIdLong())){
             if (!memberChannelTime.containsKey(member.getId())){
                 memberChannelTime.put(member.getId(), new Date());

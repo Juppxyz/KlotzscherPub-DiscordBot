@@ -6,7 +6,7 @@
 
     <groupId>xyz.jupp</groupId>
     <artifactId>DiscordBot</artifactId>
-    <version>v0.7 b002</version>
+    <version>v0.8 b001</version>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>

@@ -27,7 +27,6 @@ public class RoleChangeListener extends ListenerAdapter {
         RegularCollection regularCollection = new RegularCollection(member);
 
         if (!(regularCollection.getActiveTime() >= KlotzscherPub.getNeededTimeForRegularRole())) {
-
             for (Role role : roles) {
                 if (role.getIdLong() == regularRoleID) {
                     log.log("remove regular role ", member.getId());

@@ -45,13 +45,14 @@ public class KlotzscherPub {
                         .addEventListeners(new OnReadyListener(), new CommandHandler(),
                                            new NicknameListener(), new OnGuildJoinListener(),
                                            new RegularRoleListener(), new RoleChangeListener(),
-                                           new NSFWBotBlockListener(), new MembersCountChannelListener())
+                                           new NSFWBotBlockListener(), new MembersCountChannelListener(), new DetectCIVCodeListener())
                         .setActivity(Activity.playing("an der Bar")).build();
 
 
                 logger.log("register commands ..");
                 //CommandHandler.addCommand(new DebugCommand());
                 CommandHandler.addCommand(new SaveCurrentTimesCommand());
+                CommandHandler.addCommand(new CreateNewSurveyCommand());
                 CommandHandler.addCommand(new ActiveCommand());
                 CommandHandler.addCommand(new HelpCommand());
                 CommandHandler.addCommand(new NSFWCommand());
