@@ -9,6 +9,8 @@ import java.util.regex.Pattern;
 
 public class DetectCIVCodeListener extends ListenerAdapter {
 
+
+
     @Override
     public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent event) {
         String msg = event.getMessage().getContentRaw();

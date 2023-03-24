@@ -36,8 +36,6 @@ public class RoleChangeListener extends ListenerAdapter {
             }
         }
 
-
     }
-
 
 }

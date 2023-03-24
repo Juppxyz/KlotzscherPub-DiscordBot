@@ -45,18 +45,18 @@ public class KlotzscherPub {
                         .addEventListeners(new OnReadyListener(), new CommandHandler(),
                                            new NicknameListener(), new OnGuildJoinListener(),
                                            new RegularRoleListener(), new RoleChangeListener(),
-                                           new NSFWBotBlockListener(), new MembersCountChannelListener(), new DetectCIVCodeListener())
-                        .setActivity(Activity.playing("an der Bar")).build();
+                                           new NSFWBotBlockListener(), new MembersCountChannelListener())
+                        .setActivity(Activity.playing("eine Runde Dart")).build();
 
 
                 logger.log("register commands ..");
                 //CommandHandler.addCommand(new DebugCommand());
                 CommandHandler.addCommand(new SaveCurrentTimesCommand());
-                CommandHandler.addCommand(new CreateNewSurveyCommand());
                 CommandHandler.addCommand(new ActiveCommand());
                 CommandHandler.addCommand(new HelpCommand());
                 CommandHandler.addCommand(new NSFWCommand());
                 CommandHandler.addCommand(new TopCommand());
+                CommandHandler.addCommand(new CreateNewSurveyCommand());
 
                 logger.log("try to create connection with mongodb ..");
                 MongoDB.getInstance();
