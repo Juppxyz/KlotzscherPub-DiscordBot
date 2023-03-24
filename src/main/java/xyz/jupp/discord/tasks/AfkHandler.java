@@ -52,7 +52,7 @@ public class AfkHandler {
                 boolean memberInMap = afkMemberCheckMap.containsKey(member.getIdLong());
 
                 // changed on 27.04.2002 because ouf outdated or some similar reason (idk)
-                if ((memberInMap && !member.getVoiceState().inVoiceChannel())
+                if ((memberInMap && !member.getVoiceState().inAudioChannel())
                         || (memberInMap && voiceState.getChannel().getIdLong() == KlotzscherPubGuild.getGuild().getAfkChannel().getIdLong())) {
                     afkMemberCheckMap.remove(member.getIdLong());
                     continue;

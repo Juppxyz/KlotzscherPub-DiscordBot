@@ -2,6 +2,7 @@ package xyz.jupp.discord.events;
 
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.UserSnowflake;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRoleAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
@@ -30,7 +31,7 @@ public class RoleChangeListener extends ListenerAdapter {
             for (Role role : roles) {
                 if (role.getIdLong() == regularRoleID) {
                     log.log("remove regular role ", member.getId());
-                    KlotzscherPubGuild.getGuild().removeRoleFromMember(member.getIdLong(), KlotzscherPubGuild.getGuild().getRoleById(regularRoleID)).queue();
+                    KlotzscherPubGuild.getGuild().removeRoleFromMember(UserSnowflake.fromId(member.getIdLong()), KlotzscherPubGuild.getGuild().getRoleById(regularRoleID)).queue();
                     break;
                 }
             }

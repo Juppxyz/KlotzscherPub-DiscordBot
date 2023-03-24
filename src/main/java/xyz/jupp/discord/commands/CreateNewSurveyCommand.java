@@ -2,6 +2,7 @@ package xyz.jupp.discord.commands;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import xyz.jupp.discord.commands.handler.Command;
 import xyz.jupp.discord.core.KlotzscherPubGuild;
@@ -46,8 +47,8 @@ public class CreateNewSurveyCommand implements Command {
         embedBuilder.setDescription(content);
         embedBuilder.setFooter("Umfrage erstellt von " + member.getEffectiveName());
         event.getChannel().sendMessageEmbeds(embedBuilder.build()).queue((msg) -> {
-            msg.addReaction("U+2705").queue();
-            msg.addReaction("U+274C").queue();
+            msg.addReaction(Emoji.fromUnicode("U+2705")).queue();
+            msg.addReaction(Emoji.fromUnicode("U+274C")).queue();
 
             SurveyCollection surveyCollection = new SurveyCollection(msg.getId());
             surveyCollection.createNewSurvey();

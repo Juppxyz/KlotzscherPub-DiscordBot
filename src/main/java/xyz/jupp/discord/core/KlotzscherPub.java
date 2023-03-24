@@ -14,7 +14,6 @@ import xyz.jupp.discord.log.LoggerUtil;
 import xyz.jupp.discord.tasks.AfkHandler;
 import xyz.jupp.discord.utils.SecretKey;
 
-import javax.security.auth.login.LoginException;
 import java.util.EnumSet;
 
 public class KlotzscherPub {
@@ -26,8 +25,9 @@ public class KlotzscherPub {
     /** logger factory for the bot */
     private static LoggerUtil logger = new LoggerUtil(KlotzscherPub.class.getSimpleName());
 
-    private final static EnumSet<GatewayIntent> gatewayIntents = EnumSet.of(GatewayIntent.DIRECT_MESSAGES, GatewayIntent.GUILD_EMOJIS,
-            GatewayIntent.GUILD_VOICE_STATES, GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_PRESENCES);
+    private final static EnumSet<GatewayIntent> gatewayIntents = EnumSet.of(GatewayIntent.DIRECT_MESSAGES, GatewayIntent.GUILD_EMOJIS_AND_STICKERS,
+            GatewayIntent.GUILD_VOICE_STATES, GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_MESSAGES,
+            GatewayIntent.GUILD_PRESENCES, GatewayIntent.SCHEDULED_EVENTS, GatewayIntent.MESSAGE_CONTENT);
 
 
     /** JDA Builder for the bot */
@@ -35,36 +35,34 @@ public class KlotzscherPub {
     public static JDA getJda() {
         if (jda == null) {
             logger.log( "build the bot ..");
-            try {
-                jda = JDABuilder.createDefault(SecretKey.key)
-                        .disableCache(CacheFlag.ACTIVITY)
-                        .setMemberCachePolicy(MemberCachePolicy.ALL)
-                        .setEnabledIntents(GatewayIntent.GUILD_MEMBERS)
-                        .enableIntents(gatewayIntents)
-                        .setAutoReconnect(true)
-                        .addEventListeners(new OnReadyListener(), new CommandHandler(),
-                                           new NicknameListener(), new OnGuildJoinListener(),
-                                           new RegularRoleListener(), new RoleChangeListener(),
-                                           new NSFWBotBlockListener(), new MembersCountChannelListener())
-                        .setActivity(Activity.playing("eine Runde Dart")).build();
+
+            jda = JDABuilder.createDefault(SecretKey.key)
+                    .disableCache(CacheFlag.ACTIVITY)
+                    .setMemberCachePolicy(MemberCachePolicy.ALL)
+                    .setEnabledIntents(GatewayIntent.GUILD_MEMBERS)
+                    .enableIntents(gatewayIntents)
+                    .setAutoReconnect(true)
+                    .addEventListeners(new OnReadyListener(), new CommandHandler(),
+                                       new NicknameListener(), new OnGuildJoinListener(),
+                                       new RegularRoleListener(), new RoleChangeListener(),
+                                       new NSFWBotBlockListener(), new MembersCountChannelListener(),
+                                       new SurveyListener())
+                    .setActivity(Activity.playing("eine Runde Dart")).build();
 
 
-                logger.log("register commands ..");
-                //CommandHandler.addCommand(new DebugCommand());
-                CommandHandler.addCommand(new SaveCurrentTimesCommand());
-                CommandHandler.addCommand(new ActiveCommand());
-                CommandHandler.addCommand(new HelpCommand());
-                CommandHandler.addCommand(new NSFWCommand());
-                CommandHandler.addCommand(new TopCommand());
-                CommandHandler.addCommand(new CreateNewSurveyCommand());
+            logger.log("register commands ..");
+            //CommandHandler.addCommand(new DebugCommand());
+            CommandHandler.addCommand(new SaveCurrentTimesCommand());
+            CommandHandler.addCommand(new ActiveCommand());
+            CommandHandler.addCommand(new HelpCommand());
+            CommandHandler.addCommand(new NSFWCommand());
+            CommandHandler.addCommand(new TopCommand());
+            CommandHandler.addCommand(new CreateNewSurveyCommand());
 
-                logger.log("try to create connection with mongodb ..");
-                MongoDB.getInstance();
+            logger.log("try to create connection with mongodb ..");
+            MongoDB.getInstance();
 
-                logger.log("bot started successfully.");
-            } catch (LoginException e) {
-                e.printStackTrace();
-            }
+            logger.log("bot started successfully.");
         }
         return jda;
     }

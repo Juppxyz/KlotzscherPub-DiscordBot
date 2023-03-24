@@ -2,6 +2,7 @@ package xyz.jupp.discord.commands;
 
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.UserSnowflake;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import xyz.jupp.discord.commands.handler.Command;
 import xyz.jupp.discord.core.KlotzscherPubGuild;
@@ -19,7 +20,7 @@ public class NSFWCommand implements Command {
         if (!member.getRoles().contains(nsfwRole)){
             privateChannelBuilder = new PrivateChannelBuilder("Du hast nun Zugriff auf den NSFW Kanal. Viel Spaß ;)", PrivateChannelBuilder.PrivateChannelType.INFO);
             privateChannelBuilder.sendPrivateMessage(event.getAuthor());
-            KlotzscherPubGuild.getGuild().addRoleToMember(member.getIdLong(), nsfwRole).queue();
+            KlotzscherPubGuild.getGuild().addRoleToMember(UserSnowflake.fromId(member.getIdLong()), nsfwRole).queue();
             new LoggerUtil(NSFWCommand.class.getSimpleName()).log("add nsfw role", member.getId());
         }else {
             privateChannelBuilder = new PrivateChannelBuilder("Du hast bereits Zugriff auf den NSFW Kanal.", PrivateChannelBuilder.PrivateChannelType.INFO);
