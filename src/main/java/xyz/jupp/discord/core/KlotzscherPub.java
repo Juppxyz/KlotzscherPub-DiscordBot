@@ -46,8 +46,9 @@ public class KlotzscherPub {
                                        new NicknameListener(), new OnGuildJoinListener(),
                                        new RegularRoleListener(), new RoleChangeListener(),
                                        new NSFWBotBlockListener(), new MembersCountChannelListener(),
-                                       new SurveyListener())
-                    .setActivity(Activity.playing("eine Runde Dart")).build();
+                                       new SurveyListener(),
+                                       new ChatGPTListener())
+                    .setActivity(Activity.playing("eine runde Dart")).build();
 
 
             logger.log("register commands ..");
