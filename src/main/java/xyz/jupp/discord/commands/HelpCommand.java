@@ -28,6 +28,7 @@ public class HelpCommand implements Command {
         stringBuilder.append(" » ").append(KlotzscherPub.getChatPrefix()).append("top - Zeigt den User mit der größten aktiven Zeit an.\n\n");
         stringBuilder.append(" » ").append(KlotzscherPub.getChatPrefix()).append("gibsmir - Gibt dir die NSFW Rolle.\n\n");
         stringBuilder.append(" » ").append(KlotzscherPub.getChatPrefix()).append("umfrage [Frage] - Erstellt eine öffentliche Umfrage.\n\n");
+        stringBuilder.append(" » ").append(KlotzscherPub.getChatPrefix()).append("chatgpt [Text] - Sendet einen Text an ChatGPT (Turbo). \n\n");
         stringBuilder.append(" ❓ Fragen einfach direkt in " + KlotzscherPubGuild.getGuild().getTextChannelById(795763625017081856L).getAsMention());
         return stringBuilder.toString();
     }
