@@ -24,6 +24,7 @@ public class ChatGPTListener implements Command {
         TextChannel textChannel = event.getChannel().asTextChannel();
         long plaudernChannel = 628510262659645450L;
         long botChannel = 796428306228052010L;
+
         if ((textChannel.getIdLong() != plaudernChannel) && (textChannel.getIdLong() != botChannel)) {
             PrivateChannelBuilder privateChannelBuilder = new PrivateChannelBuilder("Bitte verwende diesen Befehl nur in " + KlotzscherPubGuild.getGuild().getTextChannelById(plaudernChannel).getAsMention() , PrivateChannelBuilder.PrivateChannelType.INFO);
             privateChannelBuilder.sendPrivateMessage(event.getAuthor());
