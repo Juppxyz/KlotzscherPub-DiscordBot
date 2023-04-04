@@ -4,20 +4,15 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import xyz.jupp.discord.commands.handler.Command;
 import xyz.jupp.discord.database.RegularCollection;
-import xyz.jupp.discord.log.LoggerUtil;
 import xyz.jupp.discord.utils.PrivateChannelBuilder;
 
 import java.util.concurrent.TimeUnit;
 
 public class ActiveCommand implements Command {
 
-    // logger
-    private final static LoggerUtil logger = new LoggerUtil(ActiveCommand.class.getSimpleName());
-
     @Override
     public void action(String[] args, MessageReceivedEvent event) {
         Member member = event.getMember();
-        logger.log("execute active command", member.getId());
         RegularCollection regularCollection = new RegularCollection(member);
 
         long activeTime = TimeUnit.MILLISECONDS.toHours(regularCollection.getActiveTime());

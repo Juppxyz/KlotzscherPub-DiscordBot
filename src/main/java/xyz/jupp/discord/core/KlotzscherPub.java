@@ -45,9 +45,7 @@ public class KlotzscherPub {
                     .addEventListeners(new OnReadyListener(), new CommandHandler(),
                                        new NicknameListener(), new OnGuildJoinListener(),
                                        new RegularRoleListener(), new RoleChangeListener(),
-                                       new NSFWBotBlockListener(), new MembersCountChannelListener(),
-                                       new SurveyListener(),
-                                       new ChatGPTListener())
+                                       new NSFWBotBlockListener(), new MembersCountChannelListener())
                     .setActivity(Activity.playing("eine runde Dart")).build();
 
 
@@ -59,6 +57,7 @@ public class KlotzscherPub {
             CommandHandler.addCommand(new NSFWCommand());
             CommandHandler.addCommand(new TopCommand());
             CommandHandler.addCommand(new CreateNewSurveyCommand());
+            CommandHandler.addCommand(new ChatGPTListener());
 
             logger.log("try to create connection with mongodb ..");
             MongoDB.getInstance();

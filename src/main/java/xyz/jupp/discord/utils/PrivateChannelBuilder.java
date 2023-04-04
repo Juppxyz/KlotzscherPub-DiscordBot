@@ -12,10 +12,17 @@ public class PrivateChannelBuilder {
     // knowledge variables
     private String content;
     private PrivateChannelType privateChannelType;
+    private String footer;
 
     public PrivateChannelBuilder(@NotNull String content, @NotNull PrivateChannelType privateChannelType) {
         this.privateChannelType = privateChannelType;
         this.content = content;
+    }
+
+    public PrivateChannelBuilder(@NotNull String content, @NotNull PrivateChannelType privateChannelType, @NotNull String footer) {
+        this.privateChannelType = privateChannelType;
+        this.content = content;
+        this.footer = footer;
     }
 
     public void sendPrivateMessage(@NotNull User user){
@@ -28,7 +35,7 @@ public class PrivateChannelBuilder {
             embedMessageBuilder = new EmbedMessageBuilder(content, EmbedMessageBuilder.EmbedMessageTypes.INFO);
         }
 
-        user.openPrivateChannel().complete().sendMessageEmbeds(embedMessageBuilder.getMessage(null).build()).queue();
+        user.openPrivateChannel().complete().sendMessageEmbeds(embedMessageBuilder.getMessage(this.footer).build()).queue();
     }
 
 
