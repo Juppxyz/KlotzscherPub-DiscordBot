@@ -22,14 +22,14 @@ public class ChatGPTListener implements Command {
     @Override
     public void action(String[] args, MessageReceivedEvent event) {
         TextChannel textChannel = event.getChannel().asTextChannel();
-        long plaudernChannel = 628510262659645450L;
-        long botChannel = 796428306228052010L;
 
-        if ((textChannel.getIdLong() != plaudernChannel) && (textChannel.getIdLong() != botChannel)) {
-            PrivateChannelBuilder privateChannelBuilder = new PrivateChannelBuilder("Bitte verwende diesen Befehl nur in " + KlotzscherPubGuild.getGuild().getTextChannelById(plaudernChannel).getAsMention() , PrivateChannelBuilder.PrivateChannelType.INFO);
-            privateChannelBuilder.sendPrivateMessage(event.getAuthor());
-            return;
-        }
+        //long plaudernChannel = 628510262659645450L;
+        //long botChannel = 796428306228052010L;
+        //if ((textChannel.getIdLong() != plaudernChannel) && (textChannel.getIdLong() != botChannel)) {
+        //    PrivateChannelBuilder privateChannelBuilder = new PrivateChannelBuilder("Bitte verwende diesen Befehl nur in " + KlotzscherPubGuild.getGuild().getTextChannelById(plaudernChannel).getAsMention() , PrivateChannelBuilder.PrivateChannelType.INFO);
+        //    privateChannelBuilder.sendPrivateMessage(event.getAuthor());
+        //    return;
+        //}
 
         if (event.getMember().getIdLong() != 213669319358283777L && event.getMember().getIdLong() != 276709802955112448L
                 && !event.getMember().getRoles().contains(KlotzscherPubGuild.getGuild().getRoleById(628302155782029332L))
