@@ -19,10 +19,8 @@ public class BadNameChecker {
         String cleanNickname = cleanNickname(nickName);
         for (String badWord : SecretKey.listOfBadwords) {
             if (cleanNickname.contains(badWord)) {
-                KlotzscherPubGuild.getGuild().modifyNickname(member, effectiveName).complete();
-
+                KlotzscherPubGuild.getGuild().modifyNickname(member, effectiveName).queue();
                 String content = (kick ? "❗️Um den Pub betreten zu können, benötigst du einen angemessenen Namen!" : "❗️ Dein Nickname wurde wegen '" + badWord + "' zurückgesetzt." );
-
                 PrivateChannelBuilder privateChannelBuilder = new PrivateChannelBuilder(content, PrivateChannelBuilder.PrivateChannelType.ERROR);
                 privateChannelBuilder.sendPrivateMessage(member.getUser());
 

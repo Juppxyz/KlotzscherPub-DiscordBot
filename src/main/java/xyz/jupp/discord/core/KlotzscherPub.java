@@ -20,6 +20,8 @@ public class KlotzscherPub {
 
     private static final String prefix = "[KlotzscherPub-Bot] ";
     private static final String chatPrefix = "%";
+
+    // 300 Stunden
     private static final long neededTimeForRegularRole = 1080000000L;
 
     /** logger factory for the bot */

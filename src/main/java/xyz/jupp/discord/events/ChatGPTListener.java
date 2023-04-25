@@ -61,7 +61,7 @@ public class ChatGPTListener implements Command {
                 .model("gpt-3.5-turbo")
                 .messages(messages)
                 .n(1)
-                .maxTokens(75)
+                .maxTokens(100)
                 .logitBias(new HashMap<>())
                 .build();
 
