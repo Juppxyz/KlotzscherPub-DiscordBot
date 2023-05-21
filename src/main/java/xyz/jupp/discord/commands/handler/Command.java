@@ -2,6 +2,7 @@ package xyz.jupp.discord.commands.handler;
 
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public interface Command {
@@ -21,7 +22,7 @@ public interface Command {
     }
 
 
-    void action(String[] args, MessageReceivedEvent event);
-    String getCommand();
+    void action(SlashCommandInteractionEvent event);
+    CommandOptions getCommandOptions();
 
 }
