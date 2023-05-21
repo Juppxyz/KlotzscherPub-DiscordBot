@@ -5,51 +5,24 @@ import com.theokanning.openai.completion.chat.ChatCompletionRequest;
 import com.theokanning.openai.completion.chat.ChatMessage;
 import com.theokanning.openai.completion.chat.ChatMessageRole;
 import com.theokanning.openai.service.OpenAiService;
-import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import org.jetbrains.annotations.NotNull;
 import xyz.jupp.discord.commands.handler.Command;
+import xyz.jupp.discord.commands.handler.CommandOptions;
 import xyz.jupp.discord.core.KlotzscherPubGuild;
-import xyz.jupp.discord.utils.PrivateChannelBuilder;
+import xyz.jupp.discord.utils.EmbedMessageUtil;
 import xyz.jupp.discord.utils.SecretKey;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class ChatGPTListener implements Command {
 
-    @Override
-    public void action(String[] args, MessageReceivedEvent event) {
-        TextChannel textChannel = event.getChannel().asTextChannel();
 
-        //long plaudernChannel = 628510262659645450L;
-        //long botChannel = 796428306228052010L;
-        //if ((textChannel.getIdLong() != plaudernChannel) && (textChannel.getIdLong() != botChannel)) {
-        //    PrivateChannelBuilder privateChannelBuilder = new PrivateChannelBuilder("Bitte verwende diesen Befehl nur in " + KlotzscherPubGuild.getGuild().getTextChannelById(plaudernChannel).getAsMention() , PrivateChannelBuilder.PrivateChannelType.INFO);
-        //    privateChannelBuilder.sendPrivateMessage(event.getAuthor());
-        //    return;
-        //}
-
-        if (event.getMember().getIdLong() != 213669319358283777L && event.getMember().getIdLong() != 276709802955112448L
-                && !event.getMember().getRoles().contains(KlotzscherPubGuild.getGuild().getRoleById(628302155782029332L))
-                && !event.getMember().getRoles().contains(KlotzscherPubGuild.getGuild().getRoleById(686689938451726351L))) {
-            PrivateChannelBuilder privateChannelBuilder = new PrivateChannelBuilder("Das kannst du leider noch nicht benutzen :/", PrivateChannelBuilder.PrivateChannelType.INFO);
-            privateChannelBuilder.sendPrivateMessage(event.getAuthor());
-            return;
-        }
-
-        if (event.getMessage().getContentRaw().length() > 250) {
-            PrivateChannelBuilder privateChannelBuilder = new PrivateChannelBuilder("Bitte probiere deine Nachricht etwas kürzer zu fassen. Danke", PrivateChannelBuilder.PrivateChannelType.INFO);
-            privateChannelBuilder.sendPrivateMessage(event.getAuthor());
-            return;
-
-        }
-        sendChatGPTRequest(event, event.getMessage().getContentRaw());
-    }
-
-
-    private void sendChatGPTRequest(@NotNull MessageReceivedEvent event, @NotNull String input) {
+    private void sendChatGPTRequest(@NotNull SlashCommandInteractionEvent event, @NotNull String input) {
         input = input.replace("%chatgpt", "");
         OpenAiService service = new OpenAiService(SecretKey.chatgptAPIKey);
 
@@ -78,12 +51,36 @@ public class ChatGPTListener implements Command {
                 });
         stringBuilder.append("...");
         service.shutdownExecutor();
-        PrivateChannelBuilder privateChannelBuilder = new PrivateChannelBuilder(stringBuilder.toString(), PrivateChannelBuilder.PrivateChannelType.INFO, "Diese Nachricht wurde von ChatGPT verfasst.");
-        privateChannelBuilder.sendPrivateMessage(event.getAuthor());
+        event.replyEmbeds(
+                EmbedMessageUtil.buildSlashCommand(stringBuilder.toString(), Color.BLUE, "Diese Nachricht wurde von ChatGPT verfasst.")
+        ).setEphemeral(true).queue();
     }
 
     @Override
-    public String getCommand() {
-        return "chatgpt";
+    public void action(SlashCommandInteractionEvent event) {
+        event.deferReply().queue();
+        if (event.getMember().getIdLong() != 213669319358283777L && event.getMember().getIdLong() != 276709802955112448L
+                && !event.getMember().getRoles().contains(KlotzscherPubGuild.getGuild().getRoleById(628302155782029332L))
+                && !event.getMember().getRoles().contains(KlotzscherPubGuild.getGuild().getRoleById(686689938451726351L))) {
+            event.replyEmbeds(
+                    EmbedMessageUtil.buildSlashCommand("Das kannst du leider noch nicht benutzen :/", Color.BLUE)
+            ).setEphemeral(true).queue();
+            return;
+        }
+
+        String content = event.getOption("text", OptionMapping::getAsString);
+        if (content.length() > 250) {
+            event.replyEmbeds(
+                    EmbedMessageUtil.buildSlashCommand("Bitte probiere deine Nachricht etwas kürzer zu fassen. Danke", Color.BLUE)
+            ).setEphemeral(true).queue();
+            return;
+
+        }
+        sendChatGPTRequest(event, content);
+    }
+
+    @Override
+    public CommandOptions getCommandOptions() {
+        return new CommandOptions("chatgpt", "Sendet einen Text an ChatGPT (Turbo).");
     }
 }

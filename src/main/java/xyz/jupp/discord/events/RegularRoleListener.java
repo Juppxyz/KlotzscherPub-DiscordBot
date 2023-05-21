@@ -1,5 +1,6 @@
 package xyz.jupp.discord.events;
 
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
@@ -11,8 +12,8 @@ import xyz.jupp.discord.core.KlotzscherPub;
 import xyz.jupp.discord.core.KlotzscherPubGuild;
 import xyz.jupp.discord.database.RegularCollection;
 import xyz.jupp.discord.log.LoggerUtil;
-import xyz.jupp.discord.utils.EmbedMessageBuilder;
 
+import java.awt.*;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -105,8 +106,11 @@ public class RegularRoleListener extends ListenerAdapter {
                 // check if the user has the regular role time reached
                 if(activeTimeFromDatabase >= KlotzscherPub.getNeededTimeForRegularRole()) {
                     if (updateRole(member, event.getGuild())){
-                        EmbedMessageBuilder embedMessageBuilder = new EmbedMessageBuilder(member.getAsMention() + " ist nun ein Stammkunde. Glückwunsch!", EmbedMessageBuilder.EmbedMessageTypes.BROADCAST);
-                        KlotzscherPubGuild.getMainTextChannel().sendMessageEmbeds(embedMessageBuilder.getMessage(null).build()).queue();
+                        EmbedBuilder embedBuilder = new EmbedBuilder();
+                        embedBuilder.setTitle("KlotzscherPub Bot");
+                        embedBuilder.setColor(Color.YELLOW);
+                        embedBuilder.setDescription(member.getAsMention() + " ist nun ein Stammkunde. Glückwunsch!");
+                        KlotzscherPubGuild.getMainTextChannel().sendMessageEmbeds(embedBuilder.build()).queue();
                     }
                 }
             }else {

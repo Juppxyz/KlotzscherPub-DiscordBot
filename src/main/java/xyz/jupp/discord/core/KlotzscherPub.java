@@ -6,7 +6,6 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
-import xyz.jupp.discord.commands.*;
 import xyz.jupp.discord.commands.handler.CommandHandler;
 import xyz.jupp.discord.database.MongoDB;
 import xyz.jupp.discord.events.*;
@@ -19,7 +18,6 @@ import java.util.EnumSet;
 public class KlotzscherPub {
 
     private static final String prefix = "[KlotzscherPub-Bot] ";
-    private static final String chatPrefix = "%";
 
     // 300 Stunden
     private static final long neededTimeForRegularRole = 1080000000L;
@@ -39,27 +37,22 @@ public class KlotzscherPub {
             logger.log( "build the bot ..");
 
             jda = JDABuilder.createDefault(SecretKey.key)
-                    .disableCache(CacheFlag.ACTIVITY)
-                    .setMemberCachePolicy(MemberCachePolicy.ALL)
+                    .setActivity(Activity.playing("eine runde Dart"))
                     .setEnabledIntents(GatewayIntent.GUILD_MEMBERS)
+                    .setMemberCachePolicy(MemberCachePolicy.ALL)
+                    .disableCache(CacheFlag.ACTIVITY)
                     .enableIntents(gatewayIntents)
                     .setAutoReconnect(true)
+                    .setLargeThreshold(300)
                     .addEventListeners(new OnReadyListener(), new CommandHandler(),
                                        new NicknameListener(), new OnGuildJoinListener(),
                                        new RegularRoleListener(), new RoleChangeListener(),
                                        new NSFWBotBlockListener(), new MembersCountChannelListener())
-                    .setActivity(Activity.playing("eine runde Dart")).build();
+                    .build();
 
 
             logger.log("register commands ..");
-            //CommandHandler.addCommand(new DebugCommand());
-            CommandHandler.addCommand(new SaveCurrentTimesCommand());
-            CommandHandler.addCommand(new ActiveCommand());
-            CommandHandler.addCommand(new HelpCommand());
-            CommandHandler.addCommand(new NSFWCommand());
-            CommandHandler.addCommand(new TopCommand());
-            CommandHandler.addCommand(new CreateNewSurveyCommand());
-            CommandHandler.addCommand(new ChatGPTListener());
+            CommandHandler.registerCommands();
 
             logger.log("try to create connection with mongodb ..");
             MongoDB.getInstance();
@@ -86,11 +79,6 @@ public class KlotzscherPub {
     // get the prefix from the bot
     public static String getPrefix() {
         return prefix;
-    }
-
-    // get the prefix for the chat commands
-    public static String getChatPrefix() {
-        return chatPrefix;
     }
 
     // get the time which is need for the regular role
