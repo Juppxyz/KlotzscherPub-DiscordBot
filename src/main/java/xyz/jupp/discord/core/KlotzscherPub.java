@@ -23,7 +23,7 @@ public class KlotzscherPub {
     private static final long neededTimeForRegularRole = 1080000000L;
 
     /** logger factory for the bot */
-    private static LoggerUtil logger = new LoggerUtil(KlotzscherPub.class.getSimpleName());
+    private static final LoggerUtil logger = new LoggerUtil(KlotzscherPub.class.getSimpleName());
 
     private final static EnumSet<GatewayIntent> gatewayIntents = EnumSet.of(GatewayIntent.DIRECT_MESSAGES, GatewayIntent.GUILD_EMOJIS_AND_STICKERS,
             GatewayIntent.GUILD_VOICE_STATES, GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_MESSAGES,
@@ -47,7 +47,8 @@ public class KlotzscherPub {
                     .addEventListeners(new OnReadyListener(), new CommandHandler(),
                                        new NicknameListener(), new OnGuildJoinListener(),
                                        new RegularRoleListener(), new RoleChangeListener(),
-                                       new NSFWBotBlockListener(), new MembersCountChannelListener())
+                                       new NSFWBotBlockListener(), new MembersCountChannelListener(),
+                                       new PreventFalseCommandsListener())
                     .build();
 
 

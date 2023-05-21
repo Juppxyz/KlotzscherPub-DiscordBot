@@ -26,7 +26,7 @@ import static xyz.jupp.discord.core.KlotzscherPub.getJda;
 public class CommandHandler extends ListenerAdapter {
 
     private static final HashMap<String, Command> commands = new HashMap<>();
-    private synchronized static HashMap<String, Command> getCommands() {
+    public synchronized static HashMap<String, Command> getCommands() {
         return commands;
     }
 
