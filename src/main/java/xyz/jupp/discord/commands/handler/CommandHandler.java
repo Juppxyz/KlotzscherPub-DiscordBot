@@ -50,7 +50,8 @@ public class CommandHandler extends ListenerAdapter {
                 new NSFWCommand(),
                 new TopCommand(),
                 new CreateNewSurveyCommand(),
-                new ChatGPTListener()
+                new ChatGPTListener(),
+                new PlayStereoAudioCommand()
         );
 
         List<SlashCommandData> slashCommands = new ArrayList<>();
