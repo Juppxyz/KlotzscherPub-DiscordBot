@@ -41,7 +41,6 @@ public class PlayStereoAudioCommand implements Command {
         KlotzscherPubGuild.getGuild().getAudioManager().openAudioConnection(member.getVoiceState().getChannel());
 
 
-
         event.replyEmbeds(
                 EmbedMessageUtil.buildSlashCommand("⏱️ Deine aktive Zeit beträgt: ", Color.BLUE)
         ).setEphemeral(true).queue();
