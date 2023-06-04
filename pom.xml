@@ -6,7 +6,7 @@
 
     <groupId>xyz.jupp</groupId>
     <artifactId>DiscordBot</artifactId>
-    <version>v0.11 b004</version>
+    <version>v0.12 b001</version>
 
     <properties>
         <maven.compiler.source>19</maven.compiler.source>
@@ -22,6 +22,11 @@
     </repositories>
 
     <dependencies>
+        <dependency>
+            <groupId>com.sedmelluq</groupId>
+            <artifactId>lavaplayer</artifactId>
+            <version>LATEST</version>
+        </dependency>
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
