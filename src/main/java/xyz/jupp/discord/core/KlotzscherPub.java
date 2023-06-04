@@ -25,9 +25,11 @@ public class KlotzscherPub {
     /** logger factory for the bot */
     private static final LoggerUtil logger = new LoggerUtil(KlotzscherPub.class.getSimpleName());
 
-    private final static EnumSet<GatewayIntent> gatewayIntents = EnumSet.of(GatewayIntent.DIRECT_MESSAGES, GatewayIntent.GUILD_EMOJIS_AND_STICKERS,
+    private final static EnumSet<GatewayIntent> gatewayIntents = EnumSet.of(
+            GatewayIntent.DIRECT_MESSAGES, GatewayIntent.GUILD_EMOJIS_AND_STICKERS,
             GatewayIntent.GUILD_VOICE_STATES, GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_MESSAGES,
-            GatewayIntent.GUILD_PRESENCES, GatewayIntent.SCHEDULED_EVENTS, GatewayIntent.MESSAGE_CONTENT);
+            GatewayIntent.GUILD_PRESENCES, GatewayIntent.SCHEDULED_EVENTS, GatewayIntent.MESSAGE_CONTENT
+    );
 
 
     /** JDA Builder for the bot */

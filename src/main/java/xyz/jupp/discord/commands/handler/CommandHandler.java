@@ -68,6 +68,10 @@ public class CommandHandler extends ListenerAdapter {
             if (command.getCommandOptions().getCommandName().equals("savetime")) {
                 commandData.setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR));
             }
+            if (command.getCommandOptions().getCommandName().equals("play")) {
+                commandData.setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR))
+                        .addOption(OptionType.STRING, "url", "Die URL der Audio-Datei");
+            }
             slashCommands.add(commandData);
         }
         getJda().updateCommands().addCommands(slashCommands).queue();
