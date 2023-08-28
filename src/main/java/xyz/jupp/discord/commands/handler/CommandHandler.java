@@ -26,7 +26,7 @@ import static xyz.jupp.discord.core.KlotzscherPub.getJda;
 public class CommandHandler extends ListenerAdapter {
 
     private static final HashMap<String, Command> commands = new HashMap<>();
-    private synchronized static HashMap<String, Command> getCommands() {
+    public synchronized static HashMap<String, Command> getCommands() {
         return commands;
     }
 
@@ -50,7 +50,8 @@ public class CommandHandler extends ListenerAdapter {
                 new NSFWCommand(),
                 new TopCommand(),
                 new CreateNewSurveyCommand(),
-                new ChatGPTListener()
+                new ChatGPTListener(),
+                new PlayStereoAudioCommand()
         );
 
         List<SlashCommandData> slashCommands = new ArrayList<>();
@@ -67,6 +68,10 @@ public class CommandHandler extends ListenerAdapter {
             }
             if (command.getCommandOptions().getCommandName().equals("savetime")) {
                 commandData.setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR));
+            }
+            if (command.getCommandOptions().getCommandName().equals("play")) {
+                commandData.setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR))
+                        .addOption(OptionType.STRING, "url", "Die URL der Audio-Datei");
             }
             slashCommands.add(commandData);
         }
