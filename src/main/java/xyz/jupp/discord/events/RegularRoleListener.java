@@ -12,6 +12,7 @@ import xyz.jupp.discord.core.KlotzscherPub;
 import xyz.jupp.discord.core.KlotzscherPubGuild;
 import xyz.jupp.discord.database.RegularCollection;
 import xyz.jupp.discord.log.LoggerUtil;
+import xyz.jupp.discord.utils.PrivacyProtectionUtil;
 
 import java.awt.*;
 import java.util.Date;
@@ -83,6 +84,11 @@ public class RegularRoleListener extends ListenerAdapter {
 
         // check if the user is a bot or system (game activities)
         if (member.getUser().isBot() || member.getUser().isSystem()) return;
+
+        // Users who are not recorded for data protection reasons
+        if (PrivacyProtectionUtil.isMemberProtected(member.getId())) {
+            return;
+        }
 
         // important!
         // if the player switch the channel directly, the state is always true
