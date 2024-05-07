@@ -1,8 +1,13 @@
 package xyz.jupp.discord.commands;
 
+import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
+import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
+import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
+import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
+import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
@@ -30,9 +35,9 @@ public class PlayStereoAudioCommand implements Command {
     public void action(SlashCommandInteractionEvent event) {
         String audioUrl = event.getOption("url", OptionMapping::getAsString);
         TextChannel textChannel = event.getChannel().asTextChannel();
-
         Member member = event.getMember();
         GuildVoiceState voiceState = member.getVoiceState();
+
         if (voiceState == null || !voiceState.inAudioChannel()){
             event.replyEmbeds(
                     EmbedMessageUtil.buildSlashCommand(
@@ -46,19 +51,40 @@ public class PlayStereoAudioCommand implements Command {
         AudioChannelUnion voiceChannel = voiceState.getChannel();
         AudioManager audioManager = KlotzscherPubGuild.getGuild().getAudioManager();
         audioManager.openAudioConnection(voiceChannel);
-        if (!audioManager.isConnected()) {
-            event.replyEmbeds(
-                    EmbedMessageUtil.buildSlashCommand("Ein unerwarteter Fehler ist aufgetreten. Sry :/", Color.ORANGE)
-            ).setEphemeral(true).queue();
-            return;
-        }
         log.info("connected to voicechannel (" + voiceChannel.getId() + ")");
-
         AudioPlayerManager audioPlayerManager = new DefaultAudioPlayerManager();
         AudioPlayer audioPlayer = audioPlayerManager.createPlayer();
-
         audioManager.setSendingHandler(new AudioPlayerSendHandler(audioPlayer));
 
+
+        AudioSourceManagers.registerRemoteSources(audioPlayerManager);
+        audioPlayerManager.loadItem(audioUrl, new AudioLoadResultHandler() {
+            @Override
+            public void trackLoaded(AudioTrack track) {
+                audioPlayer.playTrack(track);
+                System.out.println("Playing: " + track.getInfo().title);
+            }
+
+            @Override
+            public void loadFailed(FriendlyException throwable) {
+                System.out.println("Unable to play: " + audioUrl);
+            }
+
+            @Override
+            public void noMatches() {
+                System.out.println("No matches found for: " + audioUrl);
+            }
+
+            @Override
+            public void playlistLoaded(AudioPlaylist playlist) {
+                AudioTrack firstTrack = playlist.getSelectedTrack();
+                if (firstTrack == null) {
+                    firstTrack = playlist.getTracks().get(0);
+                }
+                audioPlayer.playTrack(firstTrack);
+                textChannel.sendMessage("Playing: " + firstTrack.getInfo().title).queue();
+            }
+        });
 
 
     }
