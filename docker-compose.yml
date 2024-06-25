@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  discordbot:
+    image: openjdk:latest
+    container_name: discordbot
+    working_dir: /opt/discordbot
+    volumes:
+      - discordbot_data:/opt/discordbot
+    command: ["java", "-jar", "/opt/discordbot/DiscordBot.jar"]
+
+volumes:
+  discordbot_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: D:\Projects\IntelliJ\DiscordBot\\docker-data\\
