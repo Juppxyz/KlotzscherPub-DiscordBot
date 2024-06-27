@@ -77,10 +77,10 @@ public class OnReadyListener extends ListenerAdapter {
                             EmbedBuilder embedBuilder = new EmbedBuilder();
                             embedBuilder.setColor(Color.YELLOW);
                             embedBuilder.setTitle(title);
-                            embedBuilder.setDescription(description);
+                            embedBuilder.setDescription(String.format("%s \n [Zum Artikel](%s)", description, link));
                             embedBuilder.setAuthor("Sächsiche Zeitung (https://www.saechsische.de/)");
                             embedBuilder.setThumbnail(titlePic);
-                            embedBuilder.setFooter(link);
+                            embedBuilder.setFooter(pubDate);
 
                             KlotzscherPubGuild.getGuild().getTextChannelById("1248950537215283222").sendMessageEmbeds(embedBuilder.build()).queue();
                         }
