@@ -68,7 +68,7 @@ public class OnReadyListener extends ListenerAdapter {
                         ZonedDateTime now = ZonedDateTime.now();
                         Duration duration = Duration.between(dateTime, now);
 
-                        if (duration.toHours() <= 1) {
+                        if (duration.toHours() < 1) {
                             String title = e.select("title").first().text();
                             String description = e.select("description").first().text();
                             String link = e.select("link").first().text();
