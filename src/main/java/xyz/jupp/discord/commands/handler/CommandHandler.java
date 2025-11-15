@@ -49,6 +49,7 @@ public class CommandHandler extends ListenerAdapter {
                 new HelpCommand(),
                 new NSFWCommand(),
                 new TopCommand(),
+                new StartStopMCServerCommand(),
                 new CreateNewSurveyCommand(),
                 new ChatGPTListener()
         );
@@ -64,6 +65,9 @@ public class CommandHandler extends ListenerAdapter {
             if (command.getCommandOptions().getCommandName().equals("umfrage")
                     || command.getCommandOptions().getCommandName().equals("chatgpt")){
                 commandData.addOption(OptionType.STRING, "text", "Deine Frage", true);
+            }
+            if (command.getCommandOptions().getCommandName().equals("minecraft")) {
+                commandData.addOption(OptionType.STRING, "aktion", "'start' oder 'stop'", true);
             }
             if (command.getCommandOptions().getCommandName().equals("savetime")) {
                 commandData.setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR));

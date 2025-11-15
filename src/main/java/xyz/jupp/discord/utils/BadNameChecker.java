@@ -30,7 +30,7 @@ public class BadNameChecker {
                 embedBuilder.setDescription(content);
                 member.getUser().openPrivateChannel().complete().sendMessageEmbeds(embedBuilder.build()).queue();
                 if (kick) {
-                    member.kick("forbidden nickname").queue();
+                    member.kick().queue();
                 }
 
                 logger.log("reset nickname [" + effectiveName + " -> " + nickName + "]", member.getId());
