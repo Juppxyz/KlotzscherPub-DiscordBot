@@ -10,48 +10,57 @@ import org.jetbrains.annotations.NotNull;
 import xyz.jupp.discord.log.LoggerUtil;
 import xyz.jupp.discord.utils.SecretKey;
 
+import java.util.concurrent.TimeUnit;
 
 public class MongoDB {
     private MongoDB() {}
 
-    /* This class is for the access on the mongodb database.
-     * The MongoClient will be connect to the database server.*/
-
     // logger
-    private final static LoggerUtil logger = new LoggerUtil(MongoDB.class.getSimpleName());
+    private static final LoggerUtil logger = new LoggerUtil(MongoDB.class.getSimpleName());
 
-    // single pattern
     private static MongoDB instance = null;
     public synchronized static MongoDB getInstance() {
-        if (instance == null){
-            logger.log("connected to database");
+        if (instance == null) {
             instance = new MongoDB();
+            logger.log("connected to database");
         }
         return instance;
     }
 
+    private static MongoClient client;
+    private static MongoDatabase database;
+    private static MongoClientSettings settings;
+
+    static {
+        try {
+            settings = MongoClientSettings.builder()
+                    .applyConnectionString(new ConnectionString(SecretKey.connectionString))
+                    .applyToSocketSettings(builder ->
+                            builder.readTimeout(30, TimeUnit.SECONDS)
+                                    .connectTimeout(10, TimeUnit.SECONDS)
+                    )
+                    .applyToServerSettings(builder ->
+                            builder.heartbeatFrequency(10, TimeUnit.SECONDS)
+                    )
+                    .retryWrites(true)
+                    .build();
+
+            client = MongoClients.create(settings);
+            database = client.getDatabase("discord");
+            database.runCommand(new Document("ping", 1));
+            logger.log("mongodb ping ok");
+
+        } catch (Exception e) {
+            throw e;
+        }
+    }
 
     public void insertLog(@NotNull Document document) {
         getDatabase().getCollection("logs").insertOne(document);
     }
 
-
-    // mongodb client settings
-    private final static ConnectionString mongoURI = new ConnectionString(SecretKey.connectionString);
-    private final static MongoClientSettings settings = MongoClientSettings.builder().applyConnectionString(mongoURI).retryWrites(true).build();
-
-
-    // variable for the mongoclient
-    private final com.mongodb.client.MongoClient mongoClient = MongoClients.create(settings);
-
-
-    private final MongoDatabase database = getMongoClient().getDatabase("discord");
     MongoDatabase getDatabase() {
         return database;
     }
 
-    // Getter
-    private MongoClient getMongoClient() {
-        return mongoClient;
-    }
 }
