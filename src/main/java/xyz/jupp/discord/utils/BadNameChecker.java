@@ -21,6 +21,7 @@ public class BadNameChecker {
         String cleanNickname = cleanNickname(nickName);
         for (String badWord : SecretKey.listOfBadwords) {
             if (cleanNickname.contains(badWord)) {
+                assert KlotzscherPubGuild.getGuild() != null;
                 KlotzscherPubGuild.getGuild().modifyNickname(member, effectiveName).queue();
                 String content = (kick ? "❗️Um den Pub betreten zu können, benötigst du einen angemessenen Namen!" : "❗️ Dein Nickname wurde wegen '" + badWord + "' zurückgesetzt." );
 
@@ -30,7 +31,7 @@ public class BadNameChecker {
                 embedBuilder.setDescription(content);
                 member.getUser().openPrivateChannel().complete().sendMessageEmbeds(embedBuilder.build()).queue();
                 if (kick) {
-                    member.kick("forbidden nickname").queue();
+                    member.kick().queue();
                 }
 
                 logger.log("reset nickname [" + effectiveName + " -> " + nickName + "]", member.getId());

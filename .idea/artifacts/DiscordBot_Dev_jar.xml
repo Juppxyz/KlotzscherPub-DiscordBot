@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="DiscordBot.jar">
-    <output-path>$PROJECT_DIR$/out/prod</output-path>
+  <artifact type="jar" name="DiscordBot-Dev.jar">
+    <output-path>$PROJECT_DIR$/out/dev/</output-path>
     <root id="archive" name="DiscordBot.jar">
       <element id="module-output" name="DiscordBot" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/commons-io/commons-io/2.6/commons-io-2.6.jar" path-in-jar="/" />

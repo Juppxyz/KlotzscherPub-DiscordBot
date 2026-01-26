@@ -15,10 +15,7 @@ import xyz.jupp.discord.commands.*;
 import xyz.jupp.discord.core.KlotzscherPub;
 import xyz.jupp.discord.events.ChatGPTListener;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import static xyz.jupp.discord.core.KlotzscherPub.getJda;
 
@@ -36,7 +33,7 @@ public class CommandHandler extends ListenerAdapter {
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         String commandInput = event.getName();
         if (commands.containsKey(commandInput)){
-            log.info("execute command " + event.getName(), event.getMember().getId());
+            log.info("execute command " + event.getName(), Objects.requireNonNull(event.getMember()).getId());
             commands.get(commandInput).action(event);
         }
     }
@@ -49,9 +46,9 @@ public class CommandHandler extends ListenerAdapter {
                 new HelpCommand(),
                 new NSFWCommand(),
                 new TopCommand(),
+                new StartStopMCServerCommand(),
                 new CreateNewSurveyCommand(),
-                new ChatGPTListener(),
-                new PlayStereoAudioCommand()
+                new ChatGPTListener()
         );
 
         List<SlashCommandData> slashCommands = new ArrayList<>();
@@ -60,11 +57,14 @@ public class CommandHandler extends ListenerAdapter {
             SlashCommandData commandData = Commands.slash(
                     command.getCommandOptions().getCommandName(),
                     command.getCommandOptions().getDescription()
-            ).setGuildOnly(true);
+            );
 
             if (command.getCommandOptions().getCommandName().equals("umfrage")
                     || command.getCommandOptions().getCommandName().equals("chatgpt")){
                 commandData.addOption(OptionType.STRING, "text", "Deine Frage", true);
+            }
+            if (command.getCommandOptions().getCommandName().equals("minecraft")) {
+                commandData.addOption(OptionType.STRING, "aktion", "'start' oder 'stop'", true);
             }
             if (command.getCommandOptions().getCommandName().equals("savetime")) {
                 commandData.setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR));
