@@ -38,18 +38,12 @@ public class MongoDB {
                     .applyToSocketSettings(builder ->
                             builder.readTimeout(30, TimeUnit.SECONDS)
                                     .connectTimeout(10, TimeUnit.SECONDS)
-                    )
-                    .applyToServerSettings(builder ->
-                            builder.heartbeatFrequency(10, TimeUnit.SECONDS)
-                    )
-                    .retryWrites(true)
-                    .build();
+                    ).build();
 
             client = MongoClients.create(settings);
             database = client.getDatabase("discord");
             database.runCommand(new Document("ping", 1));
             logger.log("mongodb ping ok");
-
         } catch (Exception e) {
             throw e;
         }
