@@ -3,6 +3,8 @@ services:
     build: .
     container_name: discordbot
     restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     environment:
       CONNECTION_STRING: ${CONNECTION_STRING}
       HETZNER_API_KEY: ${HETZNER_API_KEY}
