@@ -16,7 +16,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.13.0</version>
                 <configuration>
-                    <release>19</release>
+                    <release>24</release>
                 </configuration>
             </plugin>
 
@@ -62,7 +62,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.release>19</maven.compiler.release>
+        <maven.compiler.release>24</maven.compiler.release>
     </properties>
 
 
@@ -88,6 +88,13 @@
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
             <version>6.1.1</version>
+        </dependency>
+
+        <!-- dotenv (.env support) -->
+        <dependency>
+            <groupId>io.github.cdimascio</groupId>
+            <artifactId>dotenv-java</artifactId>
+            <version>3.0.0</version>
         </dependency>
 
         <!-- Logging API -->
