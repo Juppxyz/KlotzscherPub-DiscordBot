@@ -4,8 +4,9 @@ services:
     container_name: discordbot
     restart: unless-stopped
     environment:
-      DISCORD_TOKEN: ${DISCORD_TOKEN}
-      MONGODB_URI: ${MONGODB_URI}
-      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      CONNECTION_STRING: ${CONNECTION_STRING}
+      HETZNER_API_KEY: ${HETZNER_API_KEY}
+      SECRET_KEY: ${SECRET_KEY}
+      OPENAI_KEY: ${OPENAI_KEY}
     volumes:
       - ./data:/app/data
